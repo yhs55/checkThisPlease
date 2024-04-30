@@ -1,6 +1,6 @@
 package com.ssg.dsilbackend.dto;
 
-import com.ssg.dsilbackend.model.ToDo;
+import com.ssg.dsilbackend.domain.ToDo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

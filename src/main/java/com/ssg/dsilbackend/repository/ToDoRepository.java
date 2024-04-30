@@ -1,6 +1,6 @@
 package com.ssg.dsilbackend.repository;
 
-import com.ssg.dsilbackend.model.ToDo;
+import com.ssg.dsilbackend.domain.ToDo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

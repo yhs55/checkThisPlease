@@ -13,21 +13,21 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/todos")
-public class ToDoController {
-    private ToDoService toDoService;
+    public class ToDoController {
+        private ToDoService toDoService;
 
-    public ToDoController (ToDoService toDoService) {
-        this.toDoService = toDoService;
-    }
+        public ToDoController (ToDoService toDoService) {
+            this.toDoService = toDoService;
+        }
 
-    @PostMapping("")
-    public ResponseEntity<ToDoDto> createToDo(@RequestBody CreateToDoDto newToDo) {
-        System.out.println("ss");
-        ToDoDto toDoDTO = toDoService.createTodo(newToDo);
-        return new ResponseEntity<>(toDoDTO, HttpStatus.CREATED);
-    }
+        @PostMapping("")
+        public ResponseEntity<ToDoDto> createToDo(@RequestBody CreateToDoDto newToDo) {
+            System.out.println("ss");
+            ToDoDto toDoDTO = toDoService.createTodo(newToDo);
+            return new ResponseEntity<>(toDoDTO, HttpStatus.CREATED);
+        }
 
-    @GetMapping("")
+        @GetMapping("")
     public List<ToDoDto> getToDos(@RequestParam Optional<Boolean> completed) {
         if (completed.isPresent()) {
             return toDoService.getToDos(completed.get());

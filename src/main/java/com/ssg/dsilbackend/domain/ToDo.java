@@ -1,9 +1,7 @@
-package com.ssg.dsilbackend.model;
+package com.ssg.dsilbackend.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import jakarta.persistence.*;
 
 @Entity
 @Data
