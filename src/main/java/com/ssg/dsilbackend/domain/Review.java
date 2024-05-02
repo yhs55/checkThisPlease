@@ -36,7 +36,7 @@ public class Review {
     private Long score;
 
     @Column(name = "review_delete_status", nullable = false)
-    private Boolean deleteStatus;
+    private boolean deleteStatus;
 
     @Column(name = "review_img")
     private byte[] img;

@@ -1,7 +1,5 @@
 package com.ssg.dsilbackend.service;
 
-import com.ssg.dsilbackend.dto.ToDoDto;
-import com.ssg.dsilbackend.domain.ToDo;
 import com.ssg.dsilbackend.repository.ToDoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -37,7 +37,7 @@ public class Members {
     private String tel;
 
     @Column(name = "member_status", nullable = false)
-    private int status;
+    private boolean status;
 
     @Column(name = "member_address", length = 100, nullable = false)
     private String address;
