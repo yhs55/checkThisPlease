@@ -20,7 +20,7 @@ public class AvailableTime {
     private Long id;
 
     @Column(name = "available")
-    private LocalTime available;
+    private String availableTime;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
