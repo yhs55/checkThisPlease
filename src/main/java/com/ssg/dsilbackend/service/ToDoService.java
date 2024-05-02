@@ -1,10 +1,5 @@
 package com.ssg.dsilbackend.service;
 
-import com.ssg.dsilbackend.dto.CreateToDoDto;
-import com.ssg.dsilbackend.dto.ToDoDto;
-import com.ssg.dsilbackend.dto.UpdateToDoDto;
-import com.ssg.dsilbackend.exception.ToDoException;
-import com.ssg.dsilbackend.domain.ToDo;
 import com.ssg.dsilbackend.repository.ToDoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
