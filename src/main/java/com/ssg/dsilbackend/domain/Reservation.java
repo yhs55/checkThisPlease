@@ -5,8 +5,8 @@ import com.ssg.dsilbackend.dto.ReservationStateName;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -28,7 +28,6 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Members members;
-
 
     @Column(name = "reservation_status", nullable = false)
     @Enumerated(EnumType.STRING)
