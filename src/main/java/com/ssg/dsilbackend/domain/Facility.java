@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.domain;
 
+import com.ssg.dsilbackend.dto.FacilityName;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,7 +8,7 @@ import lombok.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "restaurant_facility")
 public class Facility {
@@ -17,7 +18,8 @@ public class Facility {
     private Long id;
 
     @Column(name = "facilities_name", length = 100, nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private FacilityName name;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)

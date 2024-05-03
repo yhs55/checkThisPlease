@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "restaurant_menu")
 public class Menu {
