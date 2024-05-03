@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "members")
 public class Members {
@@ -17,11 +17,11 @@ public class Members {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "permission_id", nullable = false)
+    @JoinColumn(name = "point_id", nullable = false)
     private Point point;
 
     @ManyToOne
-    @JoinColumn(name = "point_id")
+    @JoinColumn(name = "permission_id")
     private Permission permission;
 
     @Column(name = "member_email", nullable = false, length = 100)

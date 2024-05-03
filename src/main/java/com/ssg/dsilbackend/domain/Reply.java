@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "reply")
 public class Reply {
