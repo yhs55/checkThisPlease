@@ -3,6 +3,7 @@ package com.ssg.dsilbackend.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -41,5 +42,8 @@ public class Reservation {
 
     @Column(name = "reservation_request")
     private String requestContent;
+
+    @Column(name = "reservation_date")
+    private LocalDate reservationDate;
 
 }
