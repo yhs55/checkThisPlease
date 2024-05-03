@@ -27,7 +27,7 @@ public class Reservation {
     private Members members;
 
     @ManyToOne
-    @JoinColumn(name = "reservation_status", nullable = false)
+    @JoinColumn(name = "reservation_status_id", nullable = false)
     private ReservationState reservationState;
 
     @Column(name = "people_count", nullable = false)

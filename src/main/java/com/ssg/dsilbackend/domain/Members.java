@@ -3,6 +3,8 @@ package com.ssg.dsilbackend.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -17,11 +19,11 @@ public class Members {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "permission_id", nullable = false)
+    @JoinColumn(name = "point_id", nullable = false)
     private Point point;
 
     @ManyToOne
-    @JoinColumn(name = "point_id")
+    @JoinColumn(name = "permission_id")
     private Permission permission;
 
     @Column(name = "member_email", nullable = false, length = 100)
@@ -47,4 +49,7 @@ public class Members {
 
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;
+
+    @OneToMany(mappedBy = "member")
+    private List<Restaurant> restaurants;
 }
