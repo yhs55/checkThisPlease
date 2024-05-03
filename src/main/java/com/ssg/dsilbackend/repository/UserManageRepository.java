@@ -1,4 +1,4 @@
 package com.ssg.dsilbackend.repository;
 
-public interface UsrManageRepository {
+public interface UserManageRepository {
 }
