@@ -7,8 +7,7 @@ import lombok.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "payment")
 public class Payment {
     @Id
