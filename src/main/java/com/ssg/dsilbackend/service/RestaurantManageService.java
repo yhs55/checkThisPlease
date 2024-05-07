@@ -9,7 +9,6 @@ import com.ssg.dsilbackend.dto.restaurantManage.AvailableTimeDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.RestaurantManageDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.ReviewDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +18,6 @@ import java.util.List;
 @Service
 @Transactional
 public interface RestaurantManageService {
-
-
-
-
 
     RestaurantManageDTO getRestaurant(Long id);
     List<RestaurantManageDTO> getRestaurantList(Long memberId);
