@@ -12,4 +12,5 @@ public class RestaurantManageDTO {
     private Long tableCount;
     private String crowd;
     private byte[] img;
+    private Long memberId;
 }
