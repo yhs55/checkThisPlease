@@ -9,10 +9,11 @@ import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.RestaurantManageDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.ReviewDTO;
 import com.ssg.dsilbackend.repository.*;
-import jakarta.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -55,18 +56,35 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     }
 
     @Override
-    public RestaurantManageDTO updateRestaurant(Long id, RestaurantManageDTO updatedRestaurantDTO) {
+    @Transactional
+    public RestaurantManageDTO updateRestaurant(Long id, RestaurantManageDTO restaurantDTO){
         Restaurant restaurant = restaurantManageRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("식당 정보를 찾을 수 없습니다"));
+                .orElseThrow(() -> new EntityNotFoundException("Restaurant with ID " + id + " not found"));
 
-        // 엔티티의 필드를 DTO에서 가져온 값으로 업데이트
-        restaurant.setTel(updatedRestaurantDTO.getTel());
-        restaurant.setImg(updatedRestaurantDTO.getImg());
-        restaurant.setDeposit(updatedRestaurantDTO.getDeposit());
-        restaurant.setTableCount(updatedRestaurantDTO.getTableCount());
+        // 업데이트 가능한 필드를 설정
+        restaurant.setName(restaurantDTO.getName());
+        restaurant.setAddress(restaurantDTO.getAddress());
+        restaurant.setTel(restaurantDTO.getTel());
+        restaurant.setDeposit(restaurantDTO.getDeposit());
+        restaurant.setTableCount(restaurantDTO.getTableCount());
 
-        // 엔티티를 저장하고 업데이트된 DTO로 변환하여 반환
-        return modelMapper.map(restaurantManageRepository.save(restaurant), RestaurantManageDTO.class);
+        // 식당 정보 업데이트 후 저장
+        Restaurant updatedRestaurant = restaurantManageRepository.save(restaurant);
+
+        // 업데이트된 정보를 DTO로 변환하여 반환
+        return convertToDTO(updatedRestaurant);
+    }
+
+    private RestaurantManageDTO convertToDTO(Restaurant restaurant) {
+        RestaurantManageDTO dto = new RestaurantManageDTO();
+        dto.setId(restaurant.getId());
+        dto.setName(restaurant.getName());
+        dto.setAddress(restaurant.getAddress());
+        dto.setTel(restaurant.getTel());
+        dto.setDeposit(restaurant.getDeposit());
+        dto.setTableCount(restaurant.getTableCount());
+        dto.setCrowd(restaurant.getCrowd().toString()); // Assuming Crowd is stored as an Enum
+        return dto;
     }
 
 //    식당의 crowd를 변환하는 메소드
