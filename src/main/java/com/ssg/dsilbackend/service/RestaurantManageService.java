@@ -1,10 +1,7 @@
 package com.ssg.dsilbackend.service;
 
 
-import com.ssg.dsilbackend.domain.Reply;
-import com.ssg.dsilbackend.domain.Reservation;
-import com.ssg.dsilbackend.domain.Restaurant;
-import com.ssg.dsilbackend.domain.Review;
+import com.ssg.dsilbackend.domain.*;
 import com.ssg.dsilbackend.dto.Crowd;
 import com.ssg.dsilbackend.dto.reserve.ReserveDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
@@ -25,4 +22,6 @@ public interface RestaurantManageService {
     ReviewDTO getReview(Reservation reservation);
 
     ReplyDTO createReply(Long reviewId, String content);
+
+    AvailableTime
 }

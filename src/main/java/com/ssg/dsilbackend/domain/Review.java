@@ -19,7 +19,7 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "reply_id", nullable = false)
+    @JoinColumn(name = "reply_id")
     private Reply reply;
 
     @ManyToOne

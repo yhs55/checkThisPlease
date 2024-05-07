@@ -93,7 +93,6 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
         return modelMapper.map(reviewRepository.save(review), ReviewDTO.class);
     }
 
-
     @Override
     public ReplyDTO createReply(Long reviewId, String content) {
         Reply newReply = Reply.builder()
