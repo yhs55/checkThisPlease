@@ -8,9 +8,10 @@ import java.time.LocalTime;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @ToString
 @Table(name = "available_time")
 public class AvailableTime {
