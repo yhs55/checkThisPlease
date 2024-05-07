@@ -29,6 +29,9 @@ public class Menu {
     @Column(name = "menu_info", length = 200)
     private String menuInfo;
 
+    @Column(name = "sub_menu_name", nullable = false)
+    private String subName;
+
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
