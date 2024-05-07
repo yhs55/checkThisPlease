@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    List<Review> findByReservation(Reservation reservation);
+    Review findByReservation(Reservation reservation);
     long countByReservationRestaurantId(Long restaurantId);
     @Query("SELECT AVG(r.score) FROM Review r WHERE r.reservation.restaurant.id = :restaurantId")
     Double findAverageScoreByRestaurantId(@Param("restaurantId") Long restaurantId);

@@ -76,11 +76,9 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     }
 
     @Override
-    public List<ReviewDTO> getReviewList(Long restaurantId) {
-        List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
-        return reviews.stream()
-                .map(review -> modelMapper.map(review, ReviewDTO.class))
-                .collect(Collectors.toList());
+    public ReviewDTO getReview(Reservation reservation) {
+        Review review = reviewRepository.findByReservation(reservation);
+        return modelMapper.map(reviewRepository.save(review), ReviewDTO.class);
     }
 
     @Override
