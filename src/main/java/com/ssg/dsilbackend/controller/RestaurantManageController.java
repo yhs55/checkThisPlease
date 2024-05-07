@@ -3,6 +3,7 @@ package com.ssg.dsilbackend.controller;
 import com.ssg.dsilbackend.domain.Reply;
 import com.ssg.dsilbackend.domain.Reservation;
 import com.ssg.dsilbackend.domain.Review;
+import com.ssg.dsilbackend.dto.Crowd;
 import com.ssg.dsilbackend.dto.reserve.ReserveDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.RestaurantManageDTO;
@@ -46,6 +47,16 @@ public class RestaurantManageController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(restaurants);
+    }
+
+    @PatchMapping("/{restaurant-id}/crowd")
+    public ResponseEntity<RestaurantManageDTO> updateCrowd(@PathVariable Long id, @RequestParam("status") Crowd crowd) {
+        try {
+            RestaurantManageDTO updatedRestaurantDTO = restaurantService.updateCrowd(id, crowd);
+            return ResponseEntity.ok(updatedRestaurantDTO);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/{restaurant-id}/reservations")

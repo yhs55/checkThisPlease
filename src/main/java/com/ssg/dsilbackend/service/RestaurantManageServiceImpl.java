@@ -1,6 +1,7 @@
 package com.ssg.dsilbackend.service;
 
 import com.ssg.dsilbackend.domain.*;
+import com.ssg.dsilbackend.dto.Crowd;
 import com.ssg.dsilbackend.dto.reserve.ReserveDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.RestaurantManageDTO;
@@ -16,20 +17,21 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class RestaurantManageServiceImpl implements RestaurantManageService {
 
-    private final RestaurantManageRepository restaurantManageReprository;
+    private final RestaurantManageRepository restaurantManageRepository;
     private final ReserveRepository reserveRepository;
     private final ReviewRepository reviewRepository;
     private final ReplyRepository replyRepository;
     private final ModelMapper modelMapper;
     @Autowired
-    public RestaurantManageServiceImpl(RestaurantManageRepository restaurantManageReprository, ReserveRepository reserveRepository, ReviewRepository reviewRepository, ReplyRepository replyRepository, ModelMapper modelMapper) {
-        this.restaurantManageReprository = restaurantManageReprository;
+    public RestaurantManageServiceImpl(RestaurantManageRepository restaurantManageRepository, ReserveRepository reserveRepository, ReviewRepository reviewRepository, ReplyRepository replyRepository, ModelMapper modelMapper) {
+        this.restaurantManageRepository = restaurantManageRepository;
         this.reserveRepository = reserveRepository;
         this.reviewRepository = reviewRepository;
         this.replyRepository = replyRepository;
@@ -38,14 +40,14 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
     @Override
     public RestaurantManageDTO getRestaurant(Long id) {
-        Restaurant restaurant = restaurantManageReprository.findById(id)
+        Restaurant restaurant = restaurantManageRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("식당 정보를 찾을 수 없습니다"));
         return modelMapper.map(restaurant, RestaurantManageDTO.class);
     }
 
     @Override
     public List<RestaurantManageDTO> getRestaurantList(Long memberId) {
-        List<Restaurant> restaurants = restaurantManageReprository.findByMemberId(memberId);
+        List<Restaurant> restaurants = restaurantManageRepository.findByMemberId(memberId);
         return restaurants.stream()
                 .map(restaurant -> modelMapper.map(restaurant, RestaurantManageDTO.class))
                 .collect(Collectors.toList());
@@ -53,7 +55,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
     @Override
     public RestaurantManageDTO updateRestaurant(Long id, RestaurantManageDTO updatedRestaurantDTO) {
-        Restaurant restaurant = restaurantManageReprository.findById(id)
+        Restaurant restaurant = restaurantManageRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("식당 정보를 찾을 수 없습니다"));
 
         // 엔티티의 필드를 DTO에서 가져온 값으로 업데이트
@@ -63,7 +65,17 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
         restaurant.setTableCount(updatedRestaurantDTO.getTableCount());
 
         // 엔티티를 저장하고 업데이트된 DTO로 변환하여 반환
-        return modelMapper.map(restaurantManageReprository.save(restaurant), RestaurantManageDTO.class);
+        return modelMapper.map(restaurantManageRepository.save(restaurant), RestaurantManageDTO.class);
+    }
+
+//    식당의 crowd를 변환하는 메소드
+    @Override
+    public RestaurantManageDTO updateCrowd(Long id, Crowd crowd) throws Exception {
+        Restaurant restaurant = restaurantManageRepository.findById(id)
+                .orElseThrow(() -> new Exception("Restaurant not found with id: " + id));
+
+        restaurant.setCrowd(crowd);
+        return modelMapper.map(restaurantManageRepository.save(restaurant), RestaurantManageDTO.class);
     }
 
 
@@ -76,11 +88,9 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     }
 
     @Override
-    public List<ReviewDTO> getReviewList(Long restaurantId) {
-        List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
-        return reviews.stream()
-                .map(review -> modelMapper.map(review, ReviewDTO.class))
-                .collect(Collectors.toList());
+    public ReviewDTO getReview(Reservation reservation) {
+        Review review = reviewRepository.findByReservation(reservation);
+        return modelMapper.map(reviewRepository.save(review), ReviewDTO.class);
     }
 
     @Override
