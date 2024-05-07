@@ -35,4 +35,7 @@ public class Menu {
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    @Column(name = "sub_menu_name", nullable = false)
+    private String subNmae;
 }
