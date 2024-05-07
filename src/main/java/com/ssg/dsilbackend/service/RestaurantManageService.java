@@ -30,7 +30,9 @@ public interface RestaurantManageService {
 
     ReplyDTO createReply(Long reviewId, String content);
 
+
     AvailableTimeDTO createAvailableTime(Long restaurantId, AvailableTimeTable slot);
 
     void deleteAvailableTime(Long restaurantId, AvailableTimeTable slot);
+
 }

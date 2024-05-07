@@ -1,8 +1,10 @@
 package com.ssg.dsilbackend.service;
 
+import com.ssg.dsilbackend.domain.Bookmark;
 import com.ssg.dsilbackend.domain.Members;
 import com.ssg.dsilbackend.domain.Reservation;
 import com.ssg.dsilbackend.domain.Review;
+import com.ssg.dsilbackend.dto.myDinig.MydiningBookmarkDTO;
 import com.ssg.dsilbackend.dto.myDinig.MydiningReserveDTO;
 import com.ssg.dsilbackend.dto.myDinig.ReservationUpdateRequest;
 import com.ssg.dsilbackend.dto.myDinig.ReviewRequest;
@@ -16,88 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Transactional
-//@Service
-//@RequiredArgsConstructor
-//public class MyDiningServiceImpl implements MyDiningService {
-//    private final ModelMapper modelMapper;
-//    private final RestaurantRepository restaurantRepository;
-//    private final ReservationRepository reservationRepository;
-//    private final MembersRepository membersRepository;
-//
-//    public List<MydiningReserveDTO> getMydiningListById(Long id) {
-//        Members member = membersRepository.findById(id)
-//                .orElseThrow(() -> new MemberNotFoundException("Member not found with ID: " + id));
-//
-//        List<Reservation> reservations = reservationRepository.findByMembers(member);
-//
-//        return reservations.stream()
-//                .map(reservation -> {
-//                    MydiningReserveDTO dto = MydiningReserveDTO.from(reservation);
-//
-//                    return dto;
-//                })
-//                .collect(Collectors.toList());
-//    }
-//}
-
-//@Service
-//@RequiredArgsConstructor
-//@Transactional
-//public class MyDiningServiceImpl implements MyDiningService {
-//    private final ModelMapper modelMapper;
-//    private final RestaurantRepository restaurantRepository;
-//    private final ReservationRepository reservationRepository;
-//    private final MembersRepository membersRepository;
-//    private final ReviewRepository reviewRepository; // 리뷰 리포지토리 추가
-//
-//    public List<MydiningReserveDTO> getMydiningListById(Long id) {
-//        Members member = membersRepository.findById(id)
-//                .orElseThrow(() -> new MemberNotFoundException("Member not found with ID: " + id));
-//
-//        List<Reservation> reservations = reservationRepository.findByMembers(member);
-//
-//        return reservations.stream()
-//                .map(this::convertToDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    private MydiningReserveDTO convertToDto(Reservation reservation) {
-//        Long reviewCount = reviewRepository.countByReservationRestaurantId(reservation.getRestaurant().getId()); // 식당 ID에 대한 리뷰 수 조회
-//
-//        return MydiningReserveDTO.from(reservation, reviewCount);
-//    }
-//}
-
-//@Service
-//@RequiredArgsConstructor
-//@Transactional
-//public class MyDiningServiceImpl implements MyDiningService {
-//        private final ModelMapper modelMapper;
-//    private final RestaurantRepository restaurantRepository;
-//    private final ReservationRepository reservationRepository;
-//    private final MembersRepository membersRepository;
-//    private final ReviewRepository reviewRepository; // 리뷰 리포지토리 추가
-//
-//    public List<MydiningReserveDTO> getMydiningListById(Long id) {
-//        Members member = membersRepository.findById(id)
-//                .orElseThrow(() -> new MemberNotFoundException("Member not found with ID: " + id));
-//
-//        List<Reservation> reservations = reservationRepository.findByMembers(member);
-//
-//        return reservations.stream()
-//                .map(this::convertToDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    private MydiningReserveDTO convertToDto(Reservation reservation) {
-//        Double averageScore = reviewRepository.findAverageScoreByRestaurantId(reservation.getRestaurant().getId());
-//        if (averageScore == null) averageScore = 0.0; // 평균 점수가 없는 경우 0.0으로 처리
-//
-//        return MydiningReserveDTO.from(reservation, averageScore);
-//    }
-//}
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -107,10 +27,11 @@ public class MyDiningServiceImpl implements MyDiningService {
     private final ReservationRepository reservationRepository;
     private final MembersRepository membersRepository;
     private final ReviewRepository reviewRepository;
+    private final BookmarkRepository bookmarkRepository;
 
 
     // 사용자 아이디번호 받아서 예약리스트 출력
-    public List<MydiningReserveDTO> getMydiningListById(Long id) {
+    public List<MydiningReserveDTO> getMydiningReserveListById(Long id) {
         Members member = membersRepository.findById(id)
                 .orElseThrow(() -> new MemberNotFoundException("Member not found with ID: " + id));
 
@@ -121,16 +42,34 @@ public class MyDiningServiceImpl implements MyDiningService {
                 .collect(Collectors.toList());
     }
 
-    //식당 평점 가져오기
+
+    //식당 평점 가져오기, 카운트 구해서 빌더로 생성하기(MydiningReserveDTO)
     private MydiningReserveDTO convertToDto(Reservation reservation) {
         Double averageScore = reviewRepository.findAverageScoreByRestaurantId(reservation.getRestaurant().getId());
         if (averageScore == null) averageScore = 0.0; // 평균 점수가 없는 경우 0.0으로 처리
-
         long reviewCount = reviewRepository.countByReservationRestaurantId(reservation.getRestaurant().getId()); // 리뷰 개수 조회
 
         return MydiningReserveDTO.from(reservation, averageScore, reviewCount);
     }
 
+    // 사용자 아이디번호 받아서 즐겨찾기 리스트 출력
+    public List<MydiningBookmarkDTO> getMydiningBookmarksListById(Long id) {
+
+        List<Bookmark> bookmarks = bookmarkRepository.findByMembersId(id);
+        return bookmarks.stream()
+                .map(b -> convertToDto(b))
+                .collect(Collectors.toList());
+    }
+
+    //식당 평점 가져오기, 카운트 구해서 빌더로 생성하기(MydiningBookmarkDTO)
+    private MydiningBookmarkDTO convertToDto(Bookmark bookmark) {
+        Double averageScore = reviewRepository.findAverageScoreByRestaurantId(bookmark.getRestaurant().getId());
+        long reviewCount = reviewRepository.countByReservationRestaurantId(bookmark.getRestaurant().getId()); // 리뷰 개수 조회
+        return MydiningBookmarkDTO.from(bookmark, averageScore, reviewCount);
+
+    }
+
+    // 리뷰 등록하기
     @Transactional
     public void registerReview(ReviewRequest reviewRequest) {
         // 예약 객체 조회
@@ -150,9 +89,30 @@ public class MyDiningServiceImpl implements MyDiningService {
         reviewRepository.save(review);
     }
 
-//    public void cancelReservation(Long reservationId, ReservationUpdateRequest reservationUpdateRequest){
-//
-//    }
+    // 예약 아이디 받아서 예약 cancle로 만들기
+    @Transactional
+    public boolean cancelReservation(Long reservationId, ReservationUpdateRequest updateRequest) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElse(null);
+
+        if (reservation != null) {
+            reservation.setReservationStateName(updateRequest.getReservationState());
+            reservationRepository.save(reservation);
+            return true;
+        }
+        return false;
+    }
+
+    // 즐겨찾기 아이디 받아서 즐겨찾기 삭제
+    @Transactional
+    public boolean removeBookmark(Long bookmarkId) {
+        Bookmark bookmark = bookmarkRepository.findById(bookmarkId).orElse(null);
+        if (bookmark != null) {
+            bookmarkRepository.delete(bookmark);
+            return true;
+        }
+        return false;
+    }
 
 }
 

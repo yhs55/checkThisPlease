@@ -16,7 +16,13 @@ public class MyDiningServiceTest {
     @Test
     public void testGetMydiningListById() {
         Long memberId = 2L;
-        List<MydiningReserveDTO> mydiningReserveDTOList = myDiningService.getMydiningListById(memberId);
+        List<MydiningReserveDTO> mydiningReserveDTOList = myDiningService.getMydiningReserveListById(memberId);
         System.out.println(mydiningReserveDTOList);
+    }
+
+    @Test
+    public void testGetMydiningBookmarksListById(){
+        Long memberId = 2L;
+        System.out.println(myDiningService.getMydiningBookmarksListById(memberId));
     }
 }
