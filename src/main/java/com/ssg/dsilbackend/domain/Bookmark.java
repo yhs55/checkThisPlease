@@ -23,4 +23,6 @@ public class Bookmark {
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+
 }

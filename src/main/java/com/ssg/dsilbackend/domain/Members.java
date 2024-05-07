@@ -45,7 +45,7 @@ public class Members {
     private String address;
 
     @Column(name = "member_postcode", nullable = false)
-    private Long postcode;
+    private String postcode;
 
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;

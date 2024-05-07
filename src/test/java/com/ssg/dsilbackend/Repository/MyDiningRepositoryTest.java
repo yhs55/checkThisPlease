@@ -33,7 +33,7 @@ public class MyDiningRepositoryTest {
     @Test
     public void testGetMydiningListById() {
         Long memberId = 1L;
-        List<MydiningReserveDTO> mydiningReserveDTOList = myDiningService.getMydiningListById(memberId);
+        List<MydiningReserveDTO> mydiningReserveDTOList = myDiningService.getMydiningReserveListById(memberId);
         System.out.println(mydiningReserveDTOList);
     }
 }
