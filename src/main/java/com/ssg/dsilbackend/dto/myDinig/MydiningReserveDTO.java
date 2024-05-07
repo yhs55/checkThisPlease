@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.dto.myDinig;
 
+import com.ssg.dsilbackend.domain.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,22 +11,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MydiningReserveDTO {
-    private String name; // 식당이름 // 식당
-    private String reservationState; // 예약상태 // 예약
-    private String reservationTime; // 예약 시간 // 예약
-    private Long peopleCount; // 인원수 // 예약
-    private Long deposit; // 예약금 // 식당
+    private Long restaurantId;  // Restaurant의 ID 필드 추가
+    private String name;
+    private String reservationState;
+    private String reservationTime;
+    private int peopleCount;
+    private Long deposit;
+    private double averageReviewScore;
+    private long reviewCount;  // 리뷰 수 필드
+    private Long reservationId;
 
-    public void setRestaurantName(String name) {
-        this.name = name;
-
-    }
-
-    public void setRestaurantDeposit(Long deposit) {
-        this.deposit = deposit;
-    }
-
-    public void setReservationState(String reservationState) {
-        this.reservationState = reservationState;
+    public static MydiningReserveDTO from(Reservation entity, Double averageReviewScore, long reviewCount) {
+        return MydiningReserveDTO.builder()
+                .reservationId(entity.getId())
+                .restaurantId(entity.getRestaurant().getId())  // Restaurant ID 설정
+                .name(entity.getRestaurant().getName())
+                .deposit(entity.getRestaurant().getDeposit())
+                .reservationState(entity.getReservationStateName().name())
+                .reservationTime(entity.getReservationTime().name())
+                .peopleCount(entity.getPeopleCount())
+                .averageReviewScore(Math.round(averageReviewScore * 10.0) / 10.0)
+                .reviewCount(reviewCount)
+                .build();
     }
 }
+
+
