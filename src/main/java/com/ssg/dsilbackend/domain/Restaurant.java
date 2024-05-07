@@ -6,6 +6,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,6 +43,7 @@ public class Restaurant {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Members members;
+    private Members member;
 
 }
+
