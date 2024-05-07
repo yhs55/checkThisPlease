@@ -1,15 +1,14 @@
 package com.ssg.dsilbackend.service;
 
 import com.ssg.dsilbackend.domain.*;
+import com.ssg.dsilbackend.dto.AvailableTimeTable;
 import com.ssg.dsilbackend.dto.Crowd;
 import com.ssg.dsilbackend.dto.reserve.ReserveDTO;
+import com.ssg.dsilbackend.dto.restaurantManage.AvailableTimeDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.RestaurantManageDTO;
 import com.ssg.dsilbackend.dto.restaurantManage.ReviewDTO;
-import com.ssg.dsilbackend.repository.ReplyRepository;
-import com.ssg.dsilbackend.repository.ReserveRepository;
-import com.ssg.dsilbackend.repository.RestaurantManageRepository;
-import com.ssg.dsilbackend.repository.ReviewRepository;
+import com.ssg.dsilbackend.repository.*;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class RestaurantManageServiceImpl implements RestaurantManageService {
 
+    @Autowired
+    private AvailableTimeRepository availableTimeRepository;
     private final RestaurantManageRepository restaurantManageRepository;
     private final ReserveRepository reserveRepository;
     private final ReviewRepository reviewRepository;
@@ -105,6 +106,25 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
         Reply savedReply = replyRepository.save(newReply);
         return modelMapper.map(savedReply, ReplyDTO.class);
+    }
+
+    @Override
+    public AvailableTimeDTO createAvailableTime(Long restaurantId, AvailableTimeTable slot) {
+        Optional<Restaurant> restaurant = restaurantManageRepository.findById(restaurantId);
+        if (!restaurant.isPresent()) {
+            throw new IllegalStateException("Restaurant with ID " + restaurantId + " not found");
+        }
+
+        AvailableTime availableTime = new AvailableTime();
+        availableTime.setAvailableTime(slot);
+        availableTime.setRestaurant(restaurant.get());
+        AvailableTime saved = availableTimeRepository.save(availableTime);
+        return new AvailableTimeDTO(saved.getId(), saved.getAvailableTime().name());
+    }
+
+    @Override
+    public void deleteAvailableTime(Long restaurantId, AvailableTimeTable slot) {
+        availableTimeRepository.deleteByRestaurantIdAndAvailableTime(restaurantId, slot);
     }
 
 
