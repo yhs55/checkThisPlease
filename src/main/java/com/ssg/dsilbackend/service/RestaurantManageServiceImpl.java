@@ -31,6 +31,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     private final ReviewRepository reviewRepository;
     private final ReplyRepository replyRepository;
     private final ModelMapper modelMapper;
+
     @Autowired
     public RestaurantManageServiceImpl(RestaurantManageRepository restaurantManageRepository, ReserveRepository reserveRepository, ReviewRepository reviewRepository, ReplyRepository replyRepository, ModelMapper modelMapper) {
         this.restaurantManageRepository = restaurantManageRepository;
@@ -57,7 +58,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
     @Override
     @Transactional
-    public RestaurantManageDTO updateRestaurant(Long id, RestaurantManageDTO restaurantDTO){
+    public RestaurantManageDTO updateRestaurant(Long id, RestaurantManageDTO restaurantDTO) {
         Restaurant restaurant = restaurantManageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Restaurant with ID " + id + " not found"));
 
@@ -87,7 +88,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
         return dto;
     }
 
-//    식당의 crowd를 변환하는 메소드
+    //    식당의 crowd를 변환하는 메소드
     @Override
     public RestaurantManageDTO updateCrowd(Long id, Crowd crowd) throws Exception {
         Restaurant restaurant = restaurantManageRepository.findById(id)
@@ -133,12 +134,19 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
             throw new IllegalStateException("Restaurant with ID " + restaurantId + " not found");
         }
 
+        // 동일한 시간대의 AvailableTime이 이미 존재하는지 확인
+        Optional<AvailableTime> existingAvailableTime = availableTimeRepository.findByRestaurantIdAndAvailableTime(restaurantId, slot);
+        if (existingAvailableTime.isPresent()) {
+            throw new IllegalStateException("Available time already exists for this slot");
+        }
+
         AvailableTime availableTime = new AvailableTime();
         availableTime.setAvailableTime(slot);
         availableTime.setRestaurant(restaurant.get());
         AvailableTime saved = availableTimeRepository.save(availableTime);
         return new AvailableTimeDTO(saved.getId(), saved.getAvailableTime().name());
     }
+
 
     @Override
     public void deleteAvailableTime(Long restaurantId, AvailableTimeTable slot) {
