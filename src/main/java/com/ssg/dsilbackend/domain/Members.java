@@ -17,11 +17,11 @@ public class Members {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "permission_id", nullable = false)
+    @JoinColumn(name = "point_id", nullable = false)
     private Point point;
 
     @ManyToOne
-    @JoinColumn(name = "point_id")
+    @JoinColumn(name = "permission_id")
     private Permission permission;
 
     @Column(name = "member_email", nullable = false, length = 100)
@@ -37,13 +37,13 @@ public class Members {
     private String tel;
 
     @Column(name = "member_status", nullable = false)
-    private boolean status;
+    private boolean status = true;
 
     @Column(name = "member_address", length = 100, nullable = false)
     private String address;
 
     @Column(name = "member_postcode", nullable = false)
-    private Long postcode;
+    private String postcode;
 
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;
