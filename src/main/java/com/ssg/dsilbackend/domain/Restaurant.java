@@ -40,4 +40,8 @@ public class Restaurant {
     @Column(name = "restaurant_table_count", nullable = false)
     private Long tableCount;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Members members;
+
 }

@@ -49,4 +49,8 @@ public class Reservation {
 
     @Column(name = "reservation_tel",length = 13)
     private String reservationTel;
+
+//    public void updateReservationState(ReservationStateName state) {
+//        this.reservationStateName = state;
+//    }
 }
