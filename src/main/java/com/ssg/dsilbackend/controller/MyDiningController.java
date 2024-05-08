@@ -1,9 +1,6 @@
 package com.ssg.dsilbackend.controller;
 
-import com.ssg.dsilbackend.dto.myDinig.MydiningBookmarkDTO;
-import com.ssg.dsilbackend.dto.myDinig.MydiningReserveDTO;
-import com.ssg.dsilbackend.dto.myDinig.ReservationUpdateRequest;
-import com.ssg.dsilbackend.dto.myDinig.ReviewRequest;
+import com.ssg.dsilbackend.dto.myDinig.*;
 import com.ssg.dsilbackend.service.MyDiningService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +26,14 @@ public class MyDiningController {
     // 사용자 id 를 받아서 해당 즐겨찾기 출력
     @GetMapping("/bookmarks/{id}")
     public List<MydiningBookmarkDTO> getMydiningBookmarksListById(@PathVariable Long id) {
-
         return myDiningService.getMydiningBookmarksListById(id);
     }
 
+    // 사용자 id 를 받아서 해당 리뷰 출력
+    @GetMapping("/reviews/{id}")
+    public List<MydiningReviewsDTO> getMydiningReviewsListById(@PathVariable Long id) {
+        return myDiningService.getMydiningReviewsListById(id);
+    }
 
 
     //리뷰 등록
@@ -56,6 +57,19 @@ public class MyDiningController {
             return ResponseEntity.ok().body("예약이 성공적으로 취소되었습니다.");
         } else {
             return ResponseEntity.badRequest().body("예약 취소 실패: 해당 예약을 찾을 수 없습니다.");
+        }
+    }
+
+    // 리뷰 취소 요청
+    @PutMapping("/reviewRemoveRequest/{reviewId}")
+    @Transactional
+    public ResponseEntity<?> removeRequestReview(@PathVariable Long reviewId){
+        System.out.println(reviewId+"삭제요청할 아이디!!");
+        boolean result = myDiningService.removeRequestReview(reviewId);
+        if (result) {
+            return ResponseEntity.ok().body("취소 요청이 성공적으로 되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("취소 요청 실패: 해당 취소를 찾을 수 없습니다.");
         }
     }
 

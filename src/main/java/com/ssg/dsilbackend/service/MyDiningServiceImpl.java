@@ -4,10 +4,7 @@ import com.ssg.dsilbackend.domain.Bookmark;
 import com.ssg.dsilbackend.domain.Members;
 import com.ssg.dsilbackend.domain.Reservation;
 import com.ssg.dsilbackend.domain.Review;
-import com.ssg.dsilbackend.dto.myDinig.MydiningBookmarkDTO;
-import com.ssg.dsilbackend.dto.myDinig.MydiningReserveDTO;
-import com.ssg.dsilbackend.dto.myDinig.ReservationUpdateRequest;
-import com.ssg.dsilbackend.dto.myDinig.ReviewRequest;
+import com.ssg.dsilbackend.dto.myDinig.*;
 import com.ssg.dsilbackend.exception.MemberNotFoundException;
 import com.ssg.dsilbackend.repository.*;
 import jakarta.transaction.Transactional;
@@ -69,6 +66,18 @@ public class MyDiningServiceImpl implements MyDiningService {
 
     }
 
+    // 사용자 아이디번호 받아서 리뷰 리스트 출력
+    public List<MydiningReviewsDTO> getMydiningReviewsListById(Long memberId) {
+        List<Review> reviews = reviewRepository.findByReservationMembersId(memberId);
+
+        return reviews.stream().map(review -> convertToDto(review)).collect(Collectors.toList());
+    }
+    // (MydiningReviewDTO) 생성
+    private MydiningReviewsDTO convertToDto(Review review) {
+        return MydiningReviewsDTO.from(review);
+
+    }
+
     // 리뷰 등록하기
     @Transactional
     public void registerReview(ReviewRequest reviewRequest) {
@@ -101,6 +110,18 @@ public class MyDiningServiceImpl implements MyDiningService {
             return true;
         }
         return false;
+    }
+
+    // 리뷰아이디 받아서 상태 true로 변경(삭제 요청)
+    @Transactional
+    public boolean removeRequestReview(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElse(null);
+        if (review != null) {
+            review.setDeleteStatus(true); // deleteStatus를 true로 설정
+            reviewRepository.save(review); // 변경된 상태 저장
+            return true; // 성공적으로 업데이트
+        }
+        return false; // 리뷰를 찾지 못한 경우
     }
 
     // 즐겨찾기 아이디 받아서 즐겨찾기 삭제

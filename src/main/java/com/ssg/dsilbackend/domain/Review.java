@@ -41,4 +41,8 @@ public class Review {
     @Column(name = "review_img")
     private byte[] img;
 
+    public void setDeleteStatus(boolean del){
+        this.deleteStatus = true;
+    }
+
 }
