@@ -1,9 +1,6 @@
 package com.ssg.dsilbackend.service;
 
-import com.ssg.dsilbackend.dto.myDinig.MydiningBookmarkDTO;
-import com.ssg.dsilbackend.dto.myDinig.MydiningReserveDTO;
-import com.ssg.dsilbackend.dto.myDinig.ReservationUpdateRequest;
-import com.ssg.dsilbackend.dto.myDinig.ReviewRequest;
+import com.ssg.dsilbackend.dto.myDinig.*;
 
 import java.util.List;
 
@@ -17,4 +14,8 @@ public interface MyDiningService {
     List<MydiningBookmarkDTO> getMydiningBookmarksListById(Long id);
 
     boolean removeBookmark(Long bookmarkId);
+
+    List<MydiningReviewsDTO> getMydiningReviewsListById(Long id);
+
+    boolean removeRequestReview(Long reviewId);
 }

@@ -13,7 +13,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     long countByReservationRestaurantId(Long restaurantId);
     @Query("SELECT AVG(r.score) FROM Review r WHERE r.reservation.restaurant.id = :restaurantId")
     Double findAverageScoreByRestaurantId(@Param("restaurantId") Long restaurantId);
-
+    // 멤버아이디로 예약 리스트 뽑기
+    List<Review> findByReservationMembersId(Long memberId);
 }
 
 
