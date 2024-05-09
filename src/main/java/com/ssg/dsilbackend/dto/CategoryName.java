@@ -13,7 +13,7 @@ public enum CategoryName {
     BEEF, // 9
     PORK, // 10
     STEAK, // 11
-    TRIPE, // 12 (곱창막창)
+    TRIPE, // 12(곱창막창)
     SEAFOOD_STEW, // 13
     SASHIMI, // 14
     SUSHI, // 15
