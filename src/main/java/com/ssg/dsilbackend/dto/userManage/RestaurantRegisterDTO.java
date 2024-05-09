@@ -23,7 +23,7 @@ public class RestaurantRegisterDTO {
     private String postcode;
     private Long tableCount;
     private Long deposit;
-    private byte[] img;
+    private String img;
     private Category category;
     private Menu menu;
 }

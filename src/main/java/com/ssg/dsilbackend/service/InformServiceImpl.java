@@ -25,11 +25,11 @@ public class InformServiceImpl implements InformService {
                 .contents(informDTO.getContents())
                 .postDate(informDTO.getPostDate())
                 .modifiedDate(informDTO.getModifiedDate())
-                .filePath(informDTO.getFilePath())
+                .img(informDTO.getFilePath())
                 .build();
         inform = informRepository.save(inform);
         return new InformDTO(inform.getId(), inform.getCategory(), inform.getTitle(), inform.getContents(),
-                inform.getPostDate(), inform.getModifiedDate(), inform.getFilePath());
+                inform.getPostDate(), inform.getModifiedDate(), inform.getImg());
     }
 
     @Override
@@ -38,7 +38,7 @@ public class InformServiceImpl implements InformService {
         return informRepository.findAll().stream()
                 .map(inform -> new InformDTO(inform.getId(), inform.getCategory(), inform.getTitle(),
                         inform.getContents(), inform.getPostDate(), inform.getModifiedDate(),
-                        inform.getFilePath()))
+                        inform.getImg()))
                 .collect(Collectors.toList());
     }
 
@@ -48,7 +48,7 @@ public class InformServiceImpl implements InformService {
         Inform inform = informRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Inform not found for this id :: " + id));
         return new InformDTO(inform.getId(), inform.getCategory(), inform.getTitle(), inform.getContents(),
-                inform.getPostDate(), inform.getModifiedDate(), inform.getFilePath());
+                inform.getPostDate(), inform.getModifiedDate(), inform.getImg());
     }
 
 //    @Override
@@ -72,7 +72,7 @@ public class InformServiceImpl implements InformService {
                 informDTO.getPostDate(), informDTO.getModifiedDate(), informDTO.getFilePath());
         informRepository.save(inform);
         return new InformDTO(inform.getId(), inform.getCategory(), inform.getTitle(), inform.getContents(),
-                inform.getPostDate(), inform.getModifiedDate(), inform.getFilePath());
+                inform.getPostDate(), inform.getModifiedDate(), inform.getImg());
     }
 
 

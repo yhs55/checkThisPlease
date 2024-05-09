@@ -16,7 +16,7 @@ public interface UserManageRepository extends JpaRepository<Members, Long> {
 
 
     //    List<Members> findMembersByPermission(String permission);
-    @Query("SELECT m FROM Members m JOIN m.permission p WHERE p.name = :permissionName")
+    @Query("SELECT m FROM Members m JOIN m.permission p WHERE p.permission = :permissionName")
     List<Members> findMembersByPermissionName(@Param("permissionName") String permissionName);
 }
 
