@@ -31,9 +31,8 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private Crowd crowd;
 
-    @Column(name = "restaurant_img")
-    @Lob
-    private byte[] img;
+    @Column(name = "restaurant_img", length = 500)
+    private String img;
 
     @Column(name = "restaurant_deposit")
     private Long deposit;

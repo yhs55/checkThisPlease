@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.Repository;
 
+import com.ssg.dsilbackend.domain.Review;
 import com.ssg.dsilbackend.dto.myDinig.MydiningReserveDTO;
 import com.ssg.dsilbackend.repository.MembersRepository;
 import com.ssg.dsilbackend.repository.ReservationRepository;
@@ -35,5 +36,8 @@ public class MyDiningRepositoryTest {
         Long memberId = 1L;
         List<MydiningReserveDTO> mydiningReserveDTOList = myDiningService.getMydiningReserveListById(memberId);
         System.out.println(mydiningReserveDTOList);
+
     }
+
+
 }

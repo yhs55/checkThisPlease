@@ -33,15 +33,15 @@ public class Inform {
     @Column(name = "inform_modified_date")
     private LocalDate modifiedDate;
 
-    @Column(name = "inform_file_path", length = 512)
-    private String filePath;
+    @Column(name = "inform_img", length = 500)
+    private String img;
 
-    public void updateInformation(String category, String title, String contents, LocalDate postDate, LocalDate modifiedDate, String filePath) {
+    public void updateInformation(String category, String title, String contents, LocalDate postDate, LocalDate modifiedDate, String img) {
         this.category = category;
         this.title = title;
         this.contents = contents;
         this.postDate = postDate;
         this.modifiedDate = modifiedDate;
-        this.filePath = filePath;
+        this.img = img;
     }
 }
