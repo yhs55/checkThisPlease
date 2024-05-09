@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.repository;
 
+import com.ssg.dsilbackend.domain.Reply;
 import com.ssg.dsilbackend.domain.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
