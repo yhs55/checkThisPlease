@@ -1,4 +1,7 @@
 package com.ssg.dsilbackend.repository;
 
-public interface ReserveRepository {
+import com.ssg.dsilbackend.domain.Reservation;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReserveRepository extends JpaRepository<Reservation,Long> {
 }
