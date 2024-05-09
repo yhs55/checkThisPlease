@@ -3,6 +3,8 @@ package com.ssg.dsilbackend.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -37,7 +39,7 @@ public class Members {
     private String tel;
 
     @Column(name = "member_status", nullable = false)
-    private boolean status = true;
+    private boolean status;
 
     @Column(name = "member_address", length = 100, nullable = false)
     private String address;
@@ -47,4 +49,7 @@ public class Members {
 
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;
+
+    @OneToMany(mappedBy = "member")
+    private List<Restaurant> restaurants;
 }

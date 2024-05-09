@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class UserManageController {
 
-    private final UserManageService userManageService;
+//    private final UserManageService userManageService;
 
     // ------------------------------------------------- login
 
