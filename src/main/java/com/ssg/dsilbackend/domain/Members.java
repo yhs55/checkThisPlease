@@ -40,7 +40,7 @@ public class Members {
     private String tel;
 
     @Column(name = "member_status", nullable = false)
-    private boolean status;
+    private boolean status = true;
 
     @Column(name = "member_address", length = 100, nullable = false)
     private String address;
@@ -51,6 +51,11 @@ public class Members {
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Restaurant> restaurants;
+
+    public void setMemberState(Boolean status) {
+        this.status = status;
+    }
+
 }

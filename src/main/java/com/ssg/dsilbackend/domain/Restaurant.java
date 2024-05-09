@@ -44,6 +44,5 @@ public class Restaurant {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Members member;
-
 }
 

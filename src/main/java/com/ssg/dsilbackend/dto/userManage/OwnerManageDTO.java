@@ -1,20 +1,23 @@
 package com.ssg.dsilbackend.dto.userManage;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserManageDTO {
+public class OwnerManageDTO {
     private Long id;
     private String email;
+    private String name;
+    private String restaurantName;
     private String password;
     private String permission;
-    private Long point;
-    private String name;
     private String tel;
     private String address;
     private String postcode;
-    private String status;
+    private String registerNum;
 }
