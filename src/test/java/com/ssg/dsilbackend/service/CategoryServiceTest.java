@@ -12,9 +12,4 @@ public class CategoryServiceTest {
 
     @Autowired
     private MainService categoryService;
-
-    @Test
-    public void testFindByCategoryName(){
-        System.out.println(categoryService.findByCategoryName("한식"));
-    }
 }

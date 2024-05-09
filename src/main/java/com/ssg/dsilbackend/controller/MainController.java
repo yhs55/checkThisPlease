@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.controller;
 
+import com.ssg.dsilbackend.dto.CategoryName;
 import com.ssg.dsilbackend.dto.main.MainDTO;
 import com.ssg.dsilbackend.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class MainController {
     private MainService mainService;
 
     @GetMapping("/{categoryName}")
-    public ResponseEntity<List<MainDTO>> getRestaurantsByCategory(@PathVariable String categoryName) {
+    public ResponseEntity<List<MainDTO>> getRestaurantsByCategory(@PathVariable CategoryName categoryName) {
         List<MainDTO> restaurants = mainService.findByCategoryName(categoryName);
         if (restaurants.isEmpty()) {
             return ResponseEntity.notFound().build(); // 카테고리에 해당하는 식당이 없는 경우 404 Not Found 반환
