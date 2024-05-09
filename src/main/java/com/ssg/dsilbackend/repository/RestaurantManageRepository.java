@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface RestaurantManageRepository extends JpaRepository<Restaurant, Long> {
-    List<Restaurant> getRestaurantsByMemberId(Long id);
+    List<Restaurant> getRestaurantsByMemberId(Long memberId);
 }
