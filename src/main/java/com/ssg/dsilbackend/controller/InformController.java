@@ -28,7 +28,12 @@ public class InformController {
         List<InformDTO> informs = informService.getAllInforms();
         return ResponseEntity.ok(informs);
     }
-
+    // 특정 공지사항 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<InformDTO> getInformById(@PathVariable Long id) {
+        InformDTO inform = informService.getInformById(id);
+        return ResponseEntity.ok(inform);
+    }
 
 
     // 공지사항 업데이트
@@ -44,10 +49,5 @@ public class InformController {
         informService.deleteInform(id);
         return ResponseEntity.noContent().build();
     }
-    // 특정 공지사항 조회
-    @GetMapping("/{id}")
-    public ResponseEntity<InformDTO> getInformById(@PathVariable Long id) {
-        InformDTO inform = informService.getInformById(id);
-        return ResponseEntity.ok(inform);
-    }
+
 }
