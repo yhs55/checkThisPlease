@@ -1,6 +1,7 @@
 package com.ssg.dsilbackend.repository;
 
 import com.ssg.dsilbackend.domain.Members;
+import com.ssg.dsilbackend.dto.PermissionRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,9 +15,8 @@ public interface UserManageRepository extends JpaRepository<Members, Long> {
     Optional<Members> findByEmail(String email);
 
 
-
-    //    List<Members> findMembersByPermission(String permission);
-    @Query("SELECT m FROM Members m JOIN m.permission p WHERE p.name = :permissionName")
-    List<Members> findMembersByPermissionName(@Param("permissionName") String permissionName);
+    @Query("SELECT m FROM Members m JOIN m.permission p WHERE p.permission = :permissionRole")
+    List<Members> findMembersByPermissionRole(@Param("permissionRole") PermissionRole permissionRole);
 }
+
 

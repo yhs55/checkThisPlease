@@ -79,11 +79,11 @@ public class SecurityConfig {
                 .httpBasic((auth) -> auth.disable());
 
         //경로별 인가 작업
-        http
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
-                        .anyRequest().authenticated());
+//        http
+//                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/login", "/", "/join").permitAll()
+//                        .requestMatchers("/admin").hasRole("ADMIN")
+//                        .anyRequest().authenticated());
 
 //        http
 //                .addFilterAt(new JWTFilter(jwtUtil), LoginFilter.class);

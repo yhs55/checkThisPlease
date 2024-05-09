@@ -33,7 +33,7 @@ public class Restaurant {
 
     @Column(name = "restaurant_img")
     @Lob
-    private byte[] img;
+    private String img;
 
     @Column(name = "restaurant_deposit")
     private Long deposit;

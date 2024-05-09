@@ -1,6 +1,7 @@
 package com.ssg.dsilbackend.service;
 
 import com.ssg.dsilbackend.domain.*;
+import com.ssg.dsilbackend.dto.PermissionRole;
 import com.ssg.dsilbackend.dto.userManage.OwnerManageDTO;
 import com.ssg.dsilbackend.dto.userManage.RestaurantRegisterDTO;
 import com.ssg.dsilbackend.dto.userManage.ReviewManageDTO;
@@ -83,15 +84,8 @@ public class UserManageServiceImpl implements UserManageService {
 
         Members members = userInfo.orElseThrow(() -> new RuntimeException("User not found"));
 
-        Members userData = members.builder()
-                .email(members.getEmail())
-                .name(members.getName())
-                .tel(members.getTel())
-                .address(members.getAddress())
-                .postcode(members.getPostcode())
-                .build();
-
-        userManageRepository.save(userData);
+        members.updateMemberInfo(members);
+        userManageRepository.save(members);
     }
 
     // 회원 정보 탈퇴 #테스트 성공
@@ -138,7 +132,7 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public List<UserManageDTO> getUserInfoList() {
 
-        List<Members> userDataList = userManageRepository.findMembersByPermissionName("USER");
+        List<Members> userDataList = userManageRepository.findMembersByPermissionRole(PermissionRole.USER);
 
         List<UserManageDTO> userList = userDataList.stream()
                 .map(member -> modelMapper.map(member, UserManageDTO.class))
@@ -151,7 +145,7 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public List<OwnerManageDTO> getOwnerInfoList() {
 
-        List<Members> ownerDataList = userManageRepository.findMembersByPermissionName("OWNER");
+        List<Members> ownerDataList = userManageRepository.findMembersByPermissionRole(PermissionRole.OWNER);
 
         List<OwnerManageDTO> ownerList = ownerDataList.stream()
                 .map(member -> modelMapper.map(member, OwnerManageDTO.class))
@@ -194,12 +188,12 @@ public class UserManageServiceImpl implements UserManageService {
                 .build();
         userManageRepository.save(newMember);
 
-        Category category = new Category();
-
-        category.builder()
-                .name(restaurantRegisterDTO.getCategory().getName())
-                .restaurant(restaurantData)
-                .build();
+//        Category category = new Category();
+//
+//        category.builder()
+//                .name(restaurantRegisterDTO.getCategory().getName())
+//                .restaurant(restaurantData)
+//                .build();
 
 //        userManageRepository.save(category);
     }

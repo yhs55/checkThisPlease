@@ -58,4 +58,11 @@ public class Members {
         this.status = status;
     }
 
+    public void updateMemberInfo(Members members){
+        this.password = members.getPassword();
+        this.tel = members.getTel();
+        this.address = members.getAddress();
+        this.postcode = members.getPostcode();
+    }
+
 }
