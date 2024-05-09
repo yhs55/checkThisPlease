@@ -4,9 +4,8 @@ import com.ssg.dsilbackend.dto.AvailableTimeTable;
 import com.ssg.dsilbackend.dto.ReservationStateName;
 import jakarta.persistence.*;
 import lombok.*;
-
-
 import java.time.LocalDate;
+
 
 @Entity
 @Getter
@@ -59,4 +58,3 @@ public class Reservation {
     }
 
 }
-

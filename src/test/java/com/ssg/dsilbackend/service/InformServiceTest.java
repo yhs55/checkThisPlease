@@ -1,4 +1,4 @@
 package com.ssg.dsilbackend.service;
 
-public class UserManageImpl {
+public class InformServiceTest {
 }
