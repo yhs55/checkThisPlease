@@ -18,6 +18,7 @@ public class MydiningBookmarkDTO {
     private String address;
     private String tel;
     private Long bookmarkId;
+    private String restaurantImg;
 
     public static MydiningBookmarkDTO from(Bookmark bookmark, Double averageReviewScore, long reviewCount){
         return MydiningBookmarkDTO.builder()
@@ -28,6 +29,7 @@ public class MydiningBookmarkDTO {
                 .reviewCount(reviewCount)
                 .address(bookmark.getRestaurant().getAddress())
                 .tel(bookmark.getRestaurant().getTel())
+                .restaurantImg(bookmark.getRestaurant().getImg())
                 .build();
     }
 

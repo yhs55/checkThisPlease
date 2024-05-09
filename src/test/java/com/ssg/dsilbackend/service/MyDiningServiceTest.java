@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.service;
 
+import com.ssg.dsilbackend.domain.Review;
 import com.ssg.dsilbackend.dto.myDinig.MydiningReserveDTO;
 import com.ssg.dsilbackend.dto.myDinig.MydiningReviewsDTO;
 import lombok.extern.log4j.Log4j2;
@@ -37,4 +38,14 @@ public class MyDiningServiceTest {
         }
 
     }
+
+//    @Test
+//    public void testGetListRestaurantReview(){
+//        Long restaurantId = 1l;
+//        List<Review> reviewList = myDiningService.getListRestaurantReview(restaurantId);
+//
+//        for (int i = 0; i < reviewList.size(); i++) {
+//            System.out.println(reviewList.get(i));
+//        }
+//    }
 }

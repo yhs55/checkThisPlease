@@ -33,6 +33,6 @@ public class Imform {
     @Column(name = "inform_modified_date")
     private LocalDate modifiedDate;
 
-    @Column(name = "inform_file_path", length = 512)
-    private String filePath;
+    @Column(name = "inform_img", length = 500)
+    private String img;
 }

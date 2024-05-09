@@ -15,6 +15,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Double findAverageScoreByRestaurantId(@Param("restaurantId") Long restaurantId);
     // 멤버아이디로 예약 리스트 뽑기
     List<Review> findByReservationMembersId(Long memberId);
+
 }
 
 

@@ -22,9 +22,8 @@ public class Menu {
     @Column(name = "price", nullable = false)
     private Long price;
 
-    @Column(name = "menu_img")
-    @Lob
-    private byte[] img;
+    @Column(name = "menu_img", length = 500)
+    private String img;
 
     @Column(name = "menu_info", length = 200)
     private String menuInfo;

@@ -92,6 +92,7 @@ public class MyDiningServiceImpl implements MyDiningService {
                 .registerDate(reviewRequest.getRegisterDate()) // 리뷰 등록 날짜
                 .score(reviewRequest.getReviewScore()) // 평점
                 .deleteStatus(false) // 삭제 상태 초기화
+                .reply(null)
                 .build();
 
         // Review 객체 저장
@@ -134,6 +135,7 @@ public class MyDiningServiceImpl implements MyDiningService {
         }
         return false;
     }
+
 
 }
 

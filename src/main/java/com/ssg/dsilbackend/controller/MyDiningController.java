@@ -40,6 +40,7 @@ public class MyDiningController {
     @PostMapping("/registerReview")
     public ResponseEntity<?> registerReview(@RequestBody ReviewRequest reviewRequest) {
         try {
+            System.out.println(reviewRequest);
             myDiningService.registerReview(reviewRequest);
             return ResponseEntity.ok("리뷰가 성공적으로 등록되었습니다.");
         } catch (Exception e) {
