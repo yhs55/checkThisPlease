@@ -33,6 +33,7 @@ public class MyDiningController {
     @GetMapping("/reviews/{id}")
     public List<MydiningReviewsDTO> getMydiningReviewsListById(@PathVariable Long id) {
         System.out.println(id);
+        System.out.println(id);
         return myDiningService.getMydiningReviewsListById(id);
     }
 
