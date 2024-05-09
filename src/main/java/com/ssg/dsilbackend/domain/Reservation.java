@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
+
 @Entity
 @Getter
 @Builder
@@ -31,6 +32,7 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationStateName reservationStateName;
 
+
     @Column(name = "people_count", nullable = false)
     private int peopleCount;
 
@@ -44,11 +46,17 @@ public class Reservation {
     @Column(name = "reservation_request")
     private String requestContent;
 
+
     @Column(name = "reservation_date",nullable = false)
     private LocalDate reservationDate;
 
     @Column(name = "reservation_tel",length = 13)
     private String reservationTel;
+
+    public void setReservationStateName(ReservationStateName state) {
+        this.reservationStateName = state;
+    }
+
 }
 
 

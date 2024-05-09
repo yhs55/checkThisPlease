@@ -1,10 +1,12 @@
 package com.ssg.dsilbackend.domain;
 
+import com.ssg.dsilbackend.dto.Crowd;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,11 +28,11 @@ public class Restaurant {
     private String tel;
 
     @Column(name = "restaurant_crowd", length = 20, nullable = false)
-    private String crowd;
+    @Enumerated(EnumType.STRING)
+    private Crowd crowd;
 
-    @Column(name = "restaurant_img")
-    @Lob
-    private byte[] img;
+    @Column(name = "restaurant_img", length = 500)
+    private String img;
 
     @Column(name = "restaurant_deposit")
     private Long deposit;
@@ -38,4 +40,8 @@ public class Restaurant {
     @Column(name = "restaurant_table_count", nullable = false)
     private Long tableCount;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Members member;
 }
+
