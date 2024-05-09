@@ -28,7 +28,7 @@ public class InformController {
         List<InformDTO> informs = informService.getAllInforms();
         return ResponseEntity.ok(informs);
     }
-    // 특정 공지사항 조회
+    // 특정 공지사항 조회입니다
     @GetMapping("/{id}")
     public ResponseEntity<InformDTO> getInformById(@PathVariable Long id) {
         InformDTO inform = informService.getInformById(id);
