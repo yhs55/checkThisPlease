@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "review")
 public class Review {
@@ -19,7 +19,7 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "reply_id", nullable = false)
+    @JoinColumn(name = "reply_id")
     private Reply reply;
 
     @ManyToOne
@@ -40,5 +40,9 @@ public class Review {
 
     @Column(name = "review_img")
     private byte[] img;
+
+    public void setDeleteStatus(boolean del){
+        this.deleteStatus = true;
+    }
 
 }

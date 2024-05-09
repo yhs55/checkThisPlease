@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.domain;
 
+import com.ssg.dsilbackend.dto.AvailableTimeTable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,6 +8,7 @@ import java.time.LocalTime;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +22,8 @@ public class AvailableTime {
     private Long id;
 
     @Column(name = "available")
-    private String availableTime;
+    @Enumerated(EnumType.STRING)
+    private AvailableTimeTable availableTime;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)

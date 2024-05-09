@@ -6,6 +6,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,3 +45,4 @@ public class Restaurant {
     @JoinColumn(name = "member_id")
     private Members member;
 }
+

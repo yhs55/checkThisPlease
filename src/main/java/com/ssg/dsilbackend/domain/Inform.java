@@ -9,10 +9,10 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-@Table(name = "imform")
-public class Imform {
+@Table(name = "inform")
+public class Inform {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "inform_id")
@@ -35,4 +35,13 @@ public class Imform {
 
     @Column(name = "inform_file_path", length = 512)
     private String filePath;
+
+    public void updateInformation(String category, String title, String contents, LocalDate postDate, LocalDate modifiedDate, String filePath) {
+        this.category = category;
+        this.title = title;
+        this.contents = contents;
+        this.postDate = postDate;
+        this.modifiedDate = modifiedDate;
+        this.filePath = filePath;
+    }
 }

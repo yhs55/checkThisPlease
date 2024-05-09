@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -56,4 +57,5 @@ public class Members {
     public void setMemberState(Boolean status) {
         this.status = status;
     }
+
 }

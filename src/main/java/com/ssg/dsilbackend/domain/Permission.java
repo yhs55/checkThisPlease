@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.domain;
 
+import com.ssg.dsilbackend.dto.PermissionRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,7 +8,7 @@ import lombok.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "permission")
 public class Permission {
@@ -17,5 +18,6 @@ public class Permission {
     private Long id;
 
     @Column(name = "permission_name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private PermissionRole permission;
 }
