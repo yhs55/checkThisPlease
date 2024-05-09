@@ -194,12 +194,12 @@ public class UserManageServiceImpl implements UserManageService {
                 .build();
         userManageRepository.save(newMember);
 
-        Category category = new Category();
-
-        category.builder()
-                .name(restaurantRegisterDTO.getCategory().getName())
-                .restaurant(restaurantData)
-                .build();
+//        Category category = new Category();
+//
+//        category.builder()
+//                .name(restaurantRegisterDTO.getCategory().getName())
+//                .restaurant(restaurantData)
+//                .build();
 
 //        userManageRepository.save(category);
     }

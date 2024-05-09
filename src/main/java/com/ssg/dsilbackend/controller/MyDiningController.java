@@ -32,6 +32,8 @@ public class MyDiningController {
     // 사용자 id 를 받아서 해당 리뷰 출력
     @GetMapping("/reviews/{id}")
     public List<MydiningReviewsDTO> getMydiningReviewsListById(@PathVariable Long id) {
+        System.out.println(id);
+        System.out.println(id);
         return myDiningService.getMydiningReviewsListById(id);
     }
 

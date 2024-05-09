@@ -18,8 +18,8 @@ public class Category {
     private Long id;
 
     @Column(name = "categories_name", length = 100, nullable = false)
-//    @Enumerated(EnumType.STRING)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private CategoryName name;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
