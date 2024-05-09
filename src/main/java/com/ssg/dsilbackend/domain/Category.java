@@ -23,3 +23,5 @@ public class Category {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 }
+
+
