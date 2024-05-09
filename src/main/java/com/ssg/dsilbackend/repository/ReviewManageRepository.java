@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ReviewManageRepository extends JpaRepository<Review,Integer> {
+public interface ReviewManageRepository extends JpaRepository<Review, Long> {
 
     List<Review> getReviewByDeleteStatus(Boolean deleteStatus);
 }

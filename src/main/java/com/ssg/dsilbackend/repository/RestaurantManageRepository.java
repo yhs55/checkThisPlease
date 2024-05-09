@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 
-public interface RestaurantManageRepository extends JpaRepository<Restaurant, Integer> {
+public interface RestaurantManageRepository extends JpaRepository<Restaurant, Long> {
     List<Restaurant> getRestaurantsByMemberId(Long id);
 }

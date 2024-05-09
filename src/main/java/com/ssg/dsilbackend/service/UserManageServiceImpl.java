@@ -214,7 +214,7 @@ public class UserManageServiceImpl implements UserManageService {
         // Review 객체들의 reply_id를 추출하여 해당하는 Reply 객체를 가져옴
         List<Reply> replyList = reviewList.stream()
                 .map(review -> review.getReply().getId())
-                .map(replyId -> replyManageRepository.findById(replyId.intValue()))
+                .map(replyId -> replyManageRepository.findById(replyId))
                 .filter(Optional::isPresent) // Optional 객체가 존재하는지 확인
                 .map(Optional::get) // Optional 객체를 추출하여 Reply 객체로 변환
                 .collect(Collectors.toList());
@@ -223,7 +223,7 @@ public class UserManageServiceImpl implements UserManageService {
         List<ReviewManageDTO> reviewReplyPairDTOList = reviewList.stream()
                 .map(review -> {
                     Long replyId = review.getReply().getId();
-                    Reply reply = replyManageRepository.findById(replyId.intValue()).orElse(null);
+                    Reply reply = replyManageRepository.findById(replyId).orElse(null);
 
                     return new ReviewManageDTO(
 //                            review, reply

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserManageRepository extends JpaRepository<Members, Integer> {
+public interface UserManageRepository extends JpaRepository<Members, Long> {
     Boolean existsByEmail(String email);
 
     Optional<Members> findByEmail(String email);
