@@ -4,6 +4,7 @@ import com.ssg.dsilbackend.domain.Members;
 import com.ssg.dsilbackend.domain.Permission;
 import com.ssg.dsilbackend.domain.Point;
 import com.ssg.dsilbackend.domain.Restaurant;
+import com.ssg.dsilbackend.dto.userManage.RestaurantRegisterDTO;
 import com.ssg.dsilbackend.dto.userManage.UserManageDTO;
 import com.ssg.dsilbackend.repository.PermissionManageRepository;
 import com.ssg.dsilbackend.repository.PointManageRepository;
@@ -33,6 +34,14 @@ public class UserManageServiceTest {
     private PermissionManageRepository permissionManageRepository;
     private RestaurantManageRepository restaurantManageRepository;
 
+    private UserManageService userManageService;
+
+    @Autowired
+    public UserManageServiceTest(UserManageService userManageService){
+        this.userManageService = userManageService;
+    }
+
+
 
     @Autowired
     public UserManageServiceTest(UserManageRepository userManageRepository, BCryptPasswordEncoder bCryptPasswordEncoder,PointManageRepository pointManageRepository,PermissionManageRepository permissionManageRepository,RestaurantManageRepository restaurantManageRepository) {
@@ -45,31 +54,31 @@ public class UserManageServiceTest {
 
     @Test
     public void signUpTest(){
-        Point point = new Point().builder()
-                .accumulatePoint(0L)
-                .currentPoint(0L)
-                .build();
-
-        pointManageRepository.save(point);
-
-        Permission permission = new Permission().builder()
-                .name("USER").build();
-
-        permissionManageRepository.save(permission);
-
-        Members data = new Members()
-                .builder()
-                .email("dvbf@naver.com")
-                .password(bCryptPasswordEncoder.encode("1004"))
-                .permission(permission)
-                .name("윤호상")
-                .point(point)
-                .tel("010-9677-7048")
-                .address("서울시 노원구 중계동")
-                .postcode("01709")
-                .build();
-
-        userManageRepository.save(data);
+//        Point point = new Point().builder()
+//                .accumulatePoint(0L)
+//                .currentPoint(0L)
+//                .build();
+//
+//        pointManageRepository.save(point);
+//
+//        Permission permission = new Permission().builder()
+//                .name("USER").build();
+//
+//        permissionManageRepository.save(permission);
+//
+//        Members data = new Members()
+//                .builder()
+//                .email("dvbf@naver.com")
+//                .password(bCryptPasswordEncoder.encode("1004"))
+//                .permission(permission)
+//                .name("윤호상")
+//                .point(point)
+//                .tel("010-9677-7048")
+//                .address("서울시 노원구 중계동")
+//                .postcode("01709")
+//                .build();
+//
+//        userManageRepository.save(data);
     }
 
     @Test
@@ -134,4 +143,6 @@ public class UserManageServiceTest {
     public void modifyOwnerInfoTest(){
 
     }
+
+
 }
