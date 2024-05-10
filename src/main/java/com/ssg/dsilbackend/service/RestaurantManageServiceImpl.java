@@ -63,20 +63,16 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
                 .orElseThrow(() -> new EntityNotFoundException("Restaurant with ID " + id + " not found"));
 
         // 업데이트 가능한 필드를 설정
-        restaurant.setName(restaurantDTO.getName());
-        restaurant.setAddress(restaurantDTO.getAddress());
-        restaurant.setTel(restaurantDTO.getTel());
-        restaurant.setDeposit(restaurantDTO.getDeposit());
-        restaurant.setTableCount(restaurantDTO.getTableCount());
+        restaurant.updateRestaurant(restaurantDTO.getTel(), restaurantDTO.getDeposit(), restaurantDTO.getTableCount());
 
         // 식당 정보 업데이트 후 저장
         Restaurant updatedRestaurant = restaurantManageRepository.save(restaurant);
 
         // 업데이트된 정보를 DTO로 변환하여 반환
-        return convertToDTO(updatedRestaurant);
+        return convertToRestaurantDTO(updatedRestaurant);
     }
 
-    private RestaurantManageDTO convertToDTO(Restaurant restaurant) {
+    private RestaurantManageDTO convertToRestaurantDTO(Restaurant restaurant) {
         RestaurantManageDTO dto = new RestaurantManageDTO();
         dto.setId(restaurant.getId());
         dto.setName(restaurant.getName());
@@ -94,8 +90,10 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
         Restaurant restaurant = restaurantManageRepository.findById(id)
                 .orElseThrow(() -> new Exception("Restaurant not found with id: " + id));
 
-        restaurant.setCrowd(crowd);
-        return modelMapper.map(restaurantManageRepository.save(restaurant), RestaurantManageDTO.class);
+        restaurant.setRestaurantCrowd(crowd);
+        Restaurant savedRestaurant = restaurantManageRepository.save(restaurant);
+
+        return modelMapper.map(savedRestaurant, RestaurantManageDTO.class);
     }
 
 
@@ -103,15 +101,29 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     public List<ReserveDTO> getReservationList(Long restaurantId) {
         List<Reservation> reservations = reserveRepository.findByRestaurantId(restaurantId);
         return reservations.stream()
-                .map(reservation -> modelMapper.map(reservation, ReserveDTO.class))
+                .map(this::convertToReserveDto)
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public ReviewDTO getReview(Reservation reservation) {
-        Review review = reviewRepository.findByReservation(reservation);
-        return modelMapper.map(reviewRepository.save(review), ReviewDTO.class);
+    private ReserveDTO convertToReserveDto(Reservation reservation) {
+        return ReserveDTO.builder()
+                .id(reservation.getId())
+                .restaurantId(reservation.getRestaurant().getId())
+                .memberId(reservation.getMembers().getId())
+                .reservationStateName(reservation.getReservationStateName())
+                .peopleCount(reservation.getPeopleCount())
+                .reservationTime(reservation.getReservationTime())
+                .reservationName(reservation.getReservationName())
+                .requestContent(reservation.getRequestContent())
+                .reservationDate(reservation.getReservationDate())
+                .reservationTel(reservation.getReservationTel())
+                .build();
     }
+
+//    @Override
+//    public ReviewDTO getReview(Reservation reservation) {
+//        Review review = reviewRepository.findByReservation(reservation);
+//        return modelMapper.map(reviewRepository.save(review), ReviewDTO.class);
+//    }
 
     @Override
     public ReplyDTO createReply(Long reviewId, String content) {
@@ -152,6 +164,26 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     public void deleteAvailableTime(Long restaurantId, AvailableTimeTable slot) {
         availableTimeRepository.deleteByRestaurantIdAndAvailableTime(restaurantId, slot);
     }
+    @Transactional
+    public List<ReviewDTO> getReviewList(Long restaurantId) {
+        List<Review> reviews = reviewRepository.findByReservationRestaurantId(restaurantId);
 
+        return reviews.stream()
+                .map(this::convertToReviewDto)
+                .collect(Collectors.toList());
+    }
+    private ReviewDTO convertToReviewDto(Review review) {
+        return ReviewDTO.builder()
+                .id(review.getId())
+                .replyId(review.getReply().getId())
+                .replyContent(review.getReply().getContent())
+                .reservationId(review.getReservation().getId())
+                .content(review.getContent())
+                .registerDate(review.getRegisterDate())  // 예제에서 LocalDate로 가정
+                .score(review.getScore())
+                .deleteStatus(review.isDeleteStatus())
+                .img(review.getImg())
+                .build();
+    }
 
 }

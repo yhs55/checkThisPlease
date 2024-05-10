@@ -26,11 +26,13 @@ public interface RestaurantManageService {
     RestaurantManageDTO updateCrowd(Long id, Crowd crowd) throws Exception;
 
     List<ReserveDTO> getReservationList(Long restaurantId);
-    ReviewDTO getReview(Reservation reservation);
+//    ReviewDTO getReview(Reservation reservation);
 
     ReplyDTO createReply(Long reviewId, String content);
 
     AvailableTimeDTO createAvailableTime(Long restaurantId, AvailableTimeTable slot);
 
     void deleteAvailableTime(Long restaurantId, AvailableTimeTable slot);
+
+    List<ReviewDTO> getReviewList(Long restaurantId);
 }

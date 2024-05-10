@@ -6,7 +6,6 @@ import lombok.*;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,6 +43,16 @@ public class Restaurant {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Members member;
+
+    public void setRestaurantCrowd(Crowd crowd) {
+        this.crowd = crowd;
+    }
+
+    public void updateRestaurant(String tel, Long deposit, Long tableCount){
+        this.tel = tel;
+        this.deposit = deposit;
+        this.tableCount = tableCount;
+    }
 
 }
 
