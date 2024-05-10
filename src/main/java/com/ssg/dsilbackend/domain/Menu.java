@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "restaurant_menu")
 public class Menu {
@@ -22,12 +22,14 @@ public class Menu {
     @Column(name = "price", nullable = false)
     private Long price;
 
-    @Column(name = "menu_img")
-    @Lob
-    private byte[] img;
+    @Column(name = "menu_img", length = 500)
+    private String img;
 
     @Column(name = "menu_info", length = 200)
     private String menuInfo;
+
+    @Column(name = "sub_menu_name", nullable = false)
+    private String subName;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)

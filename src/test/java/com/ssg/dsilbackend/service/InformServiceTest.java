@@ -1,4 +1,4 @@
 package com.ssg.dsilbackend.service;
 
-public interface RestaurantList {
+public class InformServiceTest {
 }
