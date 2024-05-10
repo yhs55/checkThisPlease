@@ -1,24 +1,24 @@
 package com.ssg.dsilbackend.service;
 
 import com.ssg.dsilbackend.domain.*;
-import com.ssg.dsilbackend.dto.userManage.OwnerManageDTO;
-import com.ssg.dsilbackend.dto.userManage.RestaurantRegisterDTO;
-import com.ssg.dsilbackend.dto.userManage.ReviewManageDTO;
-import com.ssg.dsilbackend.dto.userManage.UserManageDTO;
-import com.ssg.dsilbackend.repository.ReplyManageRepository;
-import com.ssg.dsilbackend.repository.RestaurantManageRepository;
-import com.ssg.dsilbackend.repository.ReviewManageRepository;
-import com.ssg.dsilbackend.repository.UserManageRepository;
+import com.ssg.dsilbackend.dto.CategoryName;
+import com.ssg.dsilbackend.dto.Crowd;
+import com.ssg.dsilbackend.dto.PermissionRole;
+import com.ssg.dsilbackend.dto.userManage.*;
+import com.ssg.dsilbackend.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Service
 @Builder
 public class UserManageServiceImpl implements UserManageService {
 
@@ -27,8 +27,12 @@ public class UserManageServiceImpl implements UserManageService {
     private final RestaurantManageRepository restaurantManageRepository;
     private final ReplyManageRepository replyManageRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final Restaurant restaurant;
+    private final MenuRepository menuRepository;
     private final ModelMapper modelMapper;
+    private final CategoryRepository categoryRepository;
+    private final PointManageRepository pointManageRepository;
+    private final PermissionManageRepository permissionManageRepository;
+
 
 
     //    ----------------------------------------------- User
@@ -161,48 +165,64 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     // 등록해줘야 하는 식당 목록
-    @Override
-    public void registerRestaurantInfo(RestaurantRegisterDTO restaurantRegisterDTO) {
-        String email = restaurantRegisterDTO.getEmail();
+    @Transactional
+    public void registerRestaurantInfo(RestaurantRegisterDTO dto) {
 
-        Boolean isExist = userManageRepository.existsByEmail(email);
-
-        if (isExist) {
-            return;
-        }
-        Restaurant restaurantData = new Restaurant()
-                .builder()
-                .name(restaurantRegisterDTO.getRestaurantName())
-                .tel(restaurantRegisterDTO.getTel())
-                .address(restaurantRegisterDTO.getAddress())
-                .img(restaurantRegisterDTO.getImg())
-                .deposit(restaurantRegisterDTO.getDeposit())
-                .tableCount(restaurantRegisterDTO.getTableCount())
-                .build();
-
-        restaurantManageRepository.save(restaurantData);
-
-        Members newMember = new Members()
-                .builder()
-                .email(restaurantRegisterDTO.getEmail())
-                .password(restaurantRegisterDTO.getPassword())
-                .name(restaurantRegisterDTO.getName())
-                .tel(restaurantRegisterDTO.getTel())
-                .address(restaurantRegisterDTO.getAddress())
-                .postcode(restaurantRegisterDTO.getPostcode())
-                .registerNumber(restaurantRegisterDTO.getRegisterNumber())
+        // 회원 정보 생성 및 저장
+        Permission permission = permissionManageRepository.findByPermission(PermissionRole.OWNER);
+        Members newMember = Members.builder()
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .name(dto.getUserName())
+                .tel(dto.getUserTel())
+                .address(dto.getUserAddress())
+                .postcode(dto.getPostcode())
+                .registerNumber(dto.getRegisterNumber())
+                .permission(permission)  // 저장된 Permission 객체 사용
+                .status(true)
                 .build();
         userManageRepository.save(newMember);
 
-//        Category category = new Category();
-//
-//        category.builder()
-//                .name(restaurantRegisterDTO.getCategory().getName())
-//                .restaurant(restaurantData)
-//                .build();
+        // 레스토랑 정보 생성 및 저장
+        Restaurant newRestaurant = Restaurant.builder()
+                .member(newMember)
+                .name(dto.getRestaurantName())
+                .address(dto.getRestaurantAddress())
+                .tel(dto.getRestaurantTel())
+                .img(dto.getImg())
+                .deposit(dto.getDeposit())
+                .tableCount(dto.getTableCount())
+                .crowd(Crowd.AVAILABLE)
+                .build();
+        restaurantManageRepository.save(newRestaurant);
 
-//        userManageRepository.save(category);
+        // 카테고리 정보 생성 및 저장
+        if (dto.getCategories() != null) {
+            for (String categoryName : dto.getCategories()) {
+                Category category = Category.builder()
+                        .name(CategoryName.valueOf(categoryName))
+                        .restaurant(newRestaurant)
+                        .build();
+                categoryRepository.save(category);
+            }
+        }
+
+        // 메뉴 정보 생성 및 저장
+        if (dto.getMenuDTOs() != null) {
+            for (RegisterMenuDTO menuDTO : dto.getMenuDTOs()) {
+                Menu menu = Menu.builder()
+                        .name(menuDTO.getName())
+                        .price(menuDTO.getPrice())
+                        .img(menuDTO.getImg())
+                        .menuInfo(menuDTO.getMenuInfo())
+                        .subName(menuDTO.getSubName())
+                        .restaurant(newRestaurant)
+                        .build();
+                menuRepository.save(menu);
+            }
+        }
     }
+
 
 
     // 리뷰 및 댓글 삭제 관리 -> 다시 확인 필요
