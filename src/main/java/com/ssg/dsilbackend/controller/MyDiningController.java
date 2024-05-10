@@ -19,8 +19,21 @@ public class MyDiningController {
 
     // 사용자 id 를 받아서 해당 예약리스트 출력
     @GetMapping("/reservations/{id}")
-    public List<MydiningReserveDTO> getMydiningListById(@PathVariable Long id) {
-        return myDiningService.getMydiningReserveListById(id);
+    public ResponseEntity<?> getMydiningListById(@PathVariable Long id) {
+        try {
+            List<MydiningReserveDTO> reservations = myDiningService.getMydiningReserveListById(id);
+
+            if (reservations.isEmpty()) {
+                // 데이터가 없는 경우 404 Not Found 반환
+                return ResponseEntity.notFound().build();
+            } else {
+                // 데이터가 있는 경우 200 OK와 함께 데이터 반환
+                return ResponseEntity.ok(reservations);
+            }
+        } catch (Exception e) {
+            // 예외 처리의 경우 500 Internal Server Error 반환
+            return ResponseEntity.internalServerError().body("Error accessing data for ID " + id);
+        }
     }
 
     // 사용자 id 를 받아서 해당 즐겨찾기 출력

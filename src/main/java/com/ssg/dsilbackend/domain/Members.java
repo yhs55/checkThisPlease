@@ -20,7 +20,7 @@ public class Members {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "point_id", nullable = false)
+    @JoinColumn(name = "point_id")
     private Point point;
 
     @ManyToOne
@@ -50,9 +50,6 @@ public class Members {
 
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<Restaurant> restaurants;
 
     public void setMemberState(Boolean status) {
         this.status = status;

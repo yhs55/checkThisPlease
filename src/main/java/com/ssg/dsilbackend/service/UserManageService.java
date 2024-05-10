@@ -1,9 +1,6 @@
 package com.ssg.dsilbackend.service;
 
-import com.ssg.dsilbackend.dto.userManage.OwnerManageDTO;
-import com.ssg.dsilbackend.dto.userManage.RestaurantRegisterDTO;
-import com.ssg.dsilbackend.dto.userManage.ReviewManageDTO;
-import com.ssg.dsilbackend.dto.userManage.UserManageDTO;
+import com.ssg.dsilbackend.dto.userManage.*;
 
 import java.util.List;
 
@@ -19,7 +16,9 @@ public interface UserManageService {
 
     List<UserManageDTO> getUserInfoList();
     List<OwnerManageDTO> getOwnerInfoList();
-    void registerRestaurantInfo(RestaurantRegisterDTO restaurantRegisterDTO);
+
     List<ReviewManageDTO> getReviewInfoList();
+
+    void registerRestaurantInfo(RestaurantRegisterDTO dto);
 
 }
