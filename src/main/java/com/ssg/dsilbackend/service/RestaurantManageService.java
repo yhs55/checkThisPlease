@@ -4,11 +4,7 @@ package com.ssg.dsilbackend.service;
 import com.ssg.dsilbackend.domain.*;
 import com.ssg.dsilbackend.dto.AvailableTimeTable;
 import com.ssg.dsilbackend.dto.Crowd;
-import com.ssg.dsilbackend.dto.reserve.ReserveDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.AvailableTimeDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.RestaurantManageDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.ReviewDTO;
+import com.ssg.dsilbackend.dto.restaurantManage.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +21,7 @@ public interface RestaurantManageService {
 
     RestaurantManageDTO updateCrowd(Long id, Crowd crowd) throws Exception;
 
-    List<ReserveDTO> getReservationList(Long restaurantId);
+    List<ReservationDTO> getReservationList(Long restaurantId);
 //    ReviewDTO getReview(Reservation reservation);
 
     ReplyDTO createReply(Long reviewId, String content);
@@ -35,4 +31,6 @@ public interface RestaurantManageService {
     void deleteAvailableTime(Long restaurantId, AvailableTimeTable slot);
 
     List<ReviewDTO> getReviewList(Long restaurantId);
+
+    ReviewDTO updateReviewDeleteStatus(Long reviewId, boolean deleteStatus);
 }

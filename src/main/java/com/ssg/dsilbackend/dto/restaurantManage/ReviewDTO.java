@@ -24,5 +24,5 @@ public class ReviewDTO {
 
     private boolean deleteStatus;
 
-    private byte[] img;
+    private String img;
 }

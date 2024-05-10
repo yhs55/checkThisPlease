@@ -5,11 +5,7 @@ import com.ssg.dsilbackend.domain.Reservation;
 import com.ssg.dsilbackend.domain.Review;
 import com.ssg.dsilbackend.dto.AvailableTimeTable;
 import com.ssg.dsilbackend.dto.Crowd;
-import com.ssg.dsilbackend.dto.reserve.ReserveDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.AvailableTimeDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.RestaurantManageDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.ReviewDTO;
+import com.ssg.dsilbackend.dto.restaurantManage.*;
 import com.ssg.dsilbackend.service.RestaurantManageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.ssg.dsilbackend.domain.Restaurant;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/restaurant")
@@ -69,8 +66,8 @@ public class RestaurantManageController {
 
     //식당id에 해당하는 예약목록을 리턴하는 메소드
     @GetMapping("/{restaurant-id}/reservations")
-    public ResponseEntity<List<ReserveDTO>> getReservationList(@PathVariable("restaurant-id") Long restaurantId) {
-        List<ReserveDTO> reservations = restaurantManageService.getReservationList(restaurantId);
+    public ResponseEntity<List<ReservationDTO>> getReservationList(@PathVariable("restaurant-id") Long restaurantId) {
+        List<ReservationDTO> reservations = restaurantManageService.getReservationList(restaurantId);
         if (reservations.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -104,11 +101,18 @@ public class RestaurantManageController {
 //    }
 
     //해당 리뷰에 답글을 작성하는 메소드
-    @GetMapping("/reviews/{review-id}")
-    public ResponseEntity<ReplyDTO> createReply(@PathVariable("review-id") Long reviewId, String content){
-        ReplyDTO replyDTO = restaurantManageService.createReply(reviewId, content);
-        return ResponseEntity.ok(replyDTO);
+    @PostMapping("/reviews/{review-id}")
+    public ResponseEntity<ReplyDTO> createReply(@PathVariable("review-id") Long reviewId, @RequestBody Map<String, String> request) {
+        try {
+            String content = request.get("content");
+            ReplyDTO replyDTO = restaurantManageService.createReply(reviewId, content);
+            return ResponseEntity.ok(replyDTO);
+        } catch (Exception e) {
+            log.error("Error while creating reply for review ID: {}", reviewId, e);
+            return ResponseEntity.status(500).body(null);
+        }
     }
+
 
     // 새로운 AvailableTime 인스턴스를 생성하고 해당 예약가능시간DTO를 리턴하는 메소드
     @PostMapping("/{restaurantId}/available-times")
@@ -124,5 +128,15 @@ public class RestaurantManageController {
         return ResponseEntity.ok().build();
     }
 
+    // 리뷰 삭제요청시 deleteStatus를 true로!
+    @PatchMapping("/reviews/{reviewId}/delete-status")
+    public ResponseEntity<ReviewDTO> updateReviewDeleteStatus(@PathVariable("reviewId") Long reviewId, @RequestParam boolean deleteStatus) {
+        try {
+            ReviewDTO reviewDTO = restaurantManageService.updateReviewDeleteStatus(reviewId, deleteStatus);
+            return ResponseEntity.ok(reviewDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 
 }

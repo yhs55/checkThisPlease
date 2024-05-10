@@ -3,11 +3,7 @@ package com.ssg.dsilbackend.service;
 import com.ssg.dsilbackend.domain.*;
 import com.ssg.dsilbackend.dto.AvailableTimeTable;
 import com.ssg.dsilbackend.dto.Crowd;
-import com.ssg.dsilbackend.dto.reserve.ReserveDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.AvailableTimeDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.ReplyDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.RestaurantManageDTO;
-import com.ssg.dsilbackend.dto.restaurantManage.ReviewDTO;
+import com.ssg.dsilbackend.dto.restaurantManage.*;
 import com.ssg.dsilbackend.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -98,14 +94,14 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
 
     @Override
-    public List<ReserveDTO> getReservationList(Long restaurantId) {
+    public List<ReservationDTO> getReservationList(Long restaurantId) {
         List<Reservation> reservations = reserveRepository.findByRestaurantId(restaurantId);
         return reservations.stream()
                 .map(this::convertToReserveDto)
                 .collect(Collectors.toList());
     }
-    private ReserveDTO convertToReserveDto(Reservation reservation) {
-        return ReserveDTO.builder()
+    private ReservationDTO convertToReserveDto(Reservation reservation) {
+        return ReservationDTO.builder()
                 .id(reservation.getId())
                 .restaurantId(reservation.getRestaurant().getId())
                 .memberId(reservation.getMembers().getId())
@@ -127,17 +123,31 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
     @Override
     public ReplyDTO createReply(Long reviewId, String content) {
-        Reply newReply = Reply.builder()
-                .content(content)
-                .registerDate(LocalDate.now())
-                .deleteStatus(false)
-                .build();
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("Review not found with id: " + reviewId));
 
-        // 여기서 필요에 따라 reviewId에 해당하는 리뷰를 찾아서 newReply에 설정
+        Reply newReply = new Reply();
+        newReply.setContent(content);
+        newReply.setRegisterDate(LocalDate.now());
+        newReply.setDeleteStatus(false);
 
         Reply savedReply = replyRepository.save(newReply);
-        return modelMapper.map(savedReply, ReplyDTO.class);
+
+        // 리뷰에 답글 설정
+        review.setReply(savedReply);
+        reviewRepository.save(review);
+
+        return convertToReplyDto(savedReply);
     }
+    private ReplyDTO convertToReplyDto(Reply reply) {
+        return ReplyDTO.builder()
+                .id(reply.getId())
+                .content(reply.getContent())
+                .registerDate(reply.getRegisterDate())
+                .deleteStatus(reply.getDeleteStatus())
+                .build();
+    }
+
 
     @Override
     public AvailableTimeDTO createAvailableTime(Long restaurantId, AvailableTimeTable slot) {
@@ -172,6 +182,15 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
                 .map(this::convertToReviewDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ReviewDTO updateReviewDeleteStatus(Long reviewId, boolean deleteStatus) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("Review not found"));
+        review.setDeleteStatus(deleteStatus);
+        reviewRepository.save(review);
+        return convertToReviewDto(review);
+    }
+
     private ReviewDTO convertToReviewDto(Review review) {
         return ReviewDTO.builder()
                 .id(review.getId())

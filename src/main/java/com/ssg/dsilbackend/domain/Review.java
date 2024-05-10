@@ -39,6 +39,13 @@ public class Review {
     private boolean deleteStatus;
 
     @Column(name = "review_img")
-    private byte[] img;
+    private String img;
+
+    public void setReply(Reply reply){
+        this.reply = reply;
+    }
+    public void setDeleteStatus(boolean deleteStatus){
+        this.deleteStatus = deleteStatus;
+    }
 
 }
