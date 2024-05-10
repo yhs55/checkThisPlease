@@ -3,6 +3,8 @@ package com.ssg.dsilbackend.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -28,4 +30,22 @@ public class Payment {
 
     @Column(name = "pg")
     private String pg;
+
+    @Column(name = "payment_time", nullable = false)
+    private LocalDateTime paymentTime;
+
+    @Column(name = "pay_method", nullable = false)
+    private String payMethod;
+
+    @Column(name = "merchant_uid")
+    private String merchantUid;
+
+    @Column(name = "buyer_email")
+    private String buyerEmail;
+
+    @Column(name = "buyer_name")
+    private String buyerName;
+
+    @Column(name = "buyer_tel")
+    private String buyerTel;
 }

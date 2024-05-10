@@ -29,11 +29,11 @@ public class MimeMessageHelperService {
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
                 // 받는 사람 이메일 
-                helper.setTo("");
+                helper.setTo(email);
                 // 이메일 제목
-                helper.setSubject("");
+                helper.setSubject("DSIL 서비스 예약 완료 알림");
                 // 메일 내용
-                helper.setText("");
+                helper.setText("예약 됬음 이따 수정할거임 씨발럼아");
 
             }
         };

@@ -28,14 +28,16 @@ public class ReserveService {
 
     private final RestaurantListRepository restaurantRepository;
 
+    private final MimeMessageHelperService mimeMessageHelperService;
+
+
     public Long processReservation(ReserveDTO reserveDTO) {
         try {
 
 //            Members member = memberRepository.findById(reserveDTO.getMemberId()).orElseThrow(() -> new EntityNotFoundException("Member not found with ID: " + reserveDTO.getMemberId()));
-//
 //            Restaurant restaurant = restaurantRepository.findById(reserveDTO.getRestaurantId()).orElseThrow(() -> new EntityNotFoundException("Restaurant not found with ID: " + reserveDTO.getRestaurantId()));
 
-            Long memberId = 2L;
+            Long memberId = 30L;
             Long restaurantId = 2L;
 
             Members member = memberRepository.findById(memberId)
@@ -45,6 +47,7 @@ public class ReserveService {
                     .orElseThrow(() -> new EntityNotFoundException("Restaurant not found with ID: " + restaurantId));
 
             String name = member.getName();
+
 
             Reservation reservation = Reservation.builder()
                     .reservationTime(AvailableTimeTable.AFTERNOON_1)
@@ -61,6 +64,10 @@ public class ReserveService {
 
             Reservation savedReservation = reservationRepository.save(reservation);
             log.info("예약 성공 : {}", savedReservation);
+
+            String email = reservation.getMembers().getEmail();
+
+            mimeMessageHelperService.sendEmail(email);
 
             return savedReservation.getId(); // 저장된 예약의 ID 반환
         } catch (Exception e) {
