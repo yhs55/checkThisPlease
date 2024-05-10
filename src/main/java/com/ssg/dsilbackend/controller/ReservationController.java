@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/restaurant")
 @Log4j2
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:3000")
 public class ReservationController {
 
     private final ReserveService reservationService;
@@ -27,6 +26,7 @@ public class ReservationController {
             log.info("peopleCount: {}", reservationDTO.getPeopleCount());
             //추가로 들어가야할건 restaurantId,memberId
             reservationService.processReservation(reservationDTO);
+            //예약 완료시 email 보내줘야함
             return ResponseEntity.ok("Reservation created successfully");
         } catch (Exception e) {
             log.error("Error creating reservation: {}", e.getMessage());
