@@ -3,6 +3,7 @@ package com.ssg.dsilbackend.service;
 import com.ssg.dsilbackend.domain.*;
 import com.ssg.dsilbackend.dto.CategoryName;
 import com.ssg.dsilbackend.dto.Crowd;
+import com.ssg.dsilbackend.dto.FacilityName;
 import com.ssg.dsilbackend.dto.PermissionRole;
 import com.ssg.dsilbackend.dto.userManage.*;
 import com.ssg.dsilbackend.repository.*;
@@ -32,7 +33,7 @@ public class UserManageServiceImpl implements UserManageService {
     private final CategoryRepository categoryRepository;
     private final PointManageRepository pointManageRepository;
     private final PermissionManageRepository permissionManageRepository;
-
+    private final FacilityRepository facilityRepository;
 
 
     //    ----------------------------------------------- User
@@ -115,7 +116,7 @@ public class UserManageServiceImpl implements UserManageService {
     public List<String> getRestaurantNameByEmail(UserManageDTO userManageDTO) {
         List<Restaurant> restaurantList = restaurantManageRepository.getRestaurantsByMemberId(userManageDTO.getId());
 
-        return restaurantList.stream().map(restaurant->restaurant.getName()).collect(Collectors.toList());
+        return restaurantList.stream().map(restaurant -> restaurant.getName()).collect(Collectors.toList());
     }
 
     // 식당 관리자의 회원 정보 수정
@@ -193,6 +194,7 @@ public class UserManageServiceImpl implements UserManageService {
                 .deposit(dto.getDeposit())
                 .tableCount(dto.getTableCount())
                 .crowd(Crowd.AVAILABLE)
+                .description(dto.getDescription())
                 .build();
         restaurantManageRepository.save(newRestaurant);
 
@@ -215,14 +217,22 @@ public class UserManageServiceImpl implements UserManageService {
                         .price(menuDTO.getPrice())
                         .img(menuDTO.getImg())
                         .menuInfo(menuDTO.getMenuInfo())
-                        .subName(menuDTO.getSubName())
                         .restaurant(newRestaurant)
                         .build();
                 menuRepository.save(menu);
             }
         }
-    }
 
+        if (dto.getFacilities() != null) {
+            for (String facilityName : dto.getFacilities()) {
+                Facility facility = Facility.builder()
+                        .name(FacilityName.valueOf(facilityName))
+                        .restaurant(newRestaurant)
+                        .build();
+                facilityRepository.save(facility);
+            }
+        }
+    }
 
 
     // 리뷰 및 댓글 삭제 관리 -> 다시 확인 필요

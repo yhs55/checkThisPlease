@@ -51,25 +51,41 @@ public class MyDiningServiceTest {
         // 준비
         List<RegisterMenuDTO> menuDTOs = new ArrayList<>();
         menuDTOs.add(RegisterMenuDTO.builder()
-                .name("Bibimbap1")
+                .name("Bibimbap11")
                 .price(10000L)
                 .img("bibimbap.jpg")
                 .menuInfo("Traditional Korean mixed rice dish")
-                .subName("Korean")
                 .build());
         menuDTOs.add(RegisterMenuDTO.builder()
                 .name("Mapo Tofu1")
                 .price(12000L)
                 .img("mapo_tofu.jpg")
                 .menuInfo("Spicy Chinese tofu dish")
-                .subName("Chinese")
                 .build());
+
         String[] categories = {"KOREAN", "CHINESE", "JAPANESE"};
-        RestaurantRegisterDTO dto = new RestaurantRegisterDTO(
-                "test@example.com1", "password123", "John Doe", "1234567890",
-                "123 Main St", "12345", "9876543210", "John's Restaurant", "456 Elm St",
-                "9876543211", 4L, 1000L, "1111", categories, menuDTOs
-        );
+
+        String[] facilities = {"PARKING_AVAILABLE","CORKAGE_FREE","NO_KIDS_ZONE"};
+
+        RestaurantRegisterDTO dto = RestaurantRegisterDTO.builder()
+                .email("test@example.com1")
+                .password("password123")
+                .restaurantName("John's Restaurant")
+                .registerNumber("1234567890")
+                .userName("John Doe")
+                .userTel("9876543210")
+                .restaurantTel("9876543211")
+                .userAddress("123 Main St")
+                .restaurantAddress("456 Elm St")
+                .postcode("12345")
+                .tableCount(4L)
+                .deposit(1000L)
+                .img("1111")
+                .categories(categories)
+                .menuDTOs(menuDTOs)
+                .facilities(facilities)
+                .build();
+
 
 
 

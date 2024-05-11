@@ -43,5 +43,8 @@ public class Restaurant {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Members member;
+
+    @Column(name = "restaurant_description", length = 100)
+    private String description;
 }
 

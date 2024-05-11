@@ -1,6 +1,7 @@
 package com.ssg.dsilbackend.controller;
 
 import com.ssg.dsilbackend.dto.myDinig.*;
+import com.ssg.dsilbackend.dto.userManage.RestaurantRegisterDTO;
 import com.ssg.dsilbackend.service.MyDiningService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -98,6 +99,21 @@ public class MyDiningController {
             return ResponseEntity.ok().body("즐겨찾기가 성공적으로 취소되었습니다.");
         } else {
             return ResponseEntity.notFound().build(); // 존재하지 않는 ID로 삭제 요청 시
+        }
+    }
+
+    @PostMapping("/registerRestaurant")
+    public ResponseEntity<?> registerRestaurant(@RequestBody RestaurantRegisterDTO restaurantRegisterDTO) {
+        try {
+            System.out.println(restaurantRegisterDTO);
+            // 여기에 식당 정보를 저장하는 로직을 추가합니다.
+            // 예를 들어, 데이터베이스에 restaurantRegisterDTO를 저장하는 코드를 넣을 수 있습니다.
+
+            // 저장 로직 후, 성공적으로 저장되었다는 가정 하에 응답을 반환합니다.
+            return ResponseEntity.ok("식당 정보가 성공적으로 등록되었습니다.");
+        } catch (Exception e) {
+            // 예외 발생 시, 500 Internal Server Error와 함께 오류 메시지를 반환합니다.
+            return ResponseEntity.internalServerError().body("식당 정보 등록 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
 
