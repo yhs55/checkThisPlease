@@ -31,6 +31,8 @@ public interface RestaurantManageService {
 
     void deleteAvailableTime(Long restaurantId, AvailableTimeTable slot);
 
+    List<AvailableTimeDTO> getAvailableTimes(Long restaurantId);
+
     List<ReviewDTO> getReviewList(Long restaurantId);
 
     ReviewDTO updateReviewDeleteStatus(Long reviewId, boolean deleteStatus);

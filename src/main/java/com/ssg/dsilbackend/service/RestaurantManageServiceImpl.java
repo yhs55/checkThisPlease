@@ -343,6 +343,22 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     public void deleteAvailableTime(Long restaurantId, AvailableTimeTable slot) {
         availableTimeRepository.deleteByRestaurantIdAndAvailableTime(restaurantId, slot);
     }
+
+    public List<AvailableTimeDTO> getAvailableTimes(Long restaurantId) {
+        List<AvailableTime> availableTimes = availableTimeRepository.findByRestaurantId(restaurantId);
+        return availableTimes.stream()
+                .map(this::convertToAvailablTimeDTO)
+                .collect(Collectors.toList());
+    }
+
+    public AvailableTimeDTO convertToAvailablTimeDTO(AvailableTime availableTime){
+        return AvailableTimeDTO.builder()
+                .id(availableTime.getId())
+                .availableTime(availableTime.getAvailableTime().toString())
+                .build();
+    }
+
+
     @Transactional
     public List<ReviewDTO> getReviewList(Long restaurantId) {
         List<Review> reviews = reviewRepository.findByReservationRestaurantId(restaurantId);

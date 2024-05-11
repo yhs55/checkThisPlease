@@ -129,6 +129,13 @@ public class RestaurantManageController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{restaurant-id}/available-times")
+    public ResponseEntity<List<AvailableTimeDTO>> getAvailableTimes(@PathVariable("restaurant-id") Long id) {
+        List<AvailableTimeDTO> availableTimes = restaurantManageService.getAvailableTimes(id);
+        return ResponseEntity.ok(availableTimes);
+    }
+
+
     // 리뷰 삭제요청시 deleteStatus를 true로!
     @PatchMapping("/reviews/{reviewId}/delete-status")
     public ResponseEntity<ReviewDTO> updateReviewDeleteStatus(@PathVariable("reviewId") Long reviewId, @RequestParam boolean deleteStatus) {
