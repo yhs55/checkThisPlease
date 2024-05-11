@@ -25,4 +25,5 @@ public class ReviewDTO {
     private boolean deleteStatus;
 
     private String img;
+    private String reservationName;
 }

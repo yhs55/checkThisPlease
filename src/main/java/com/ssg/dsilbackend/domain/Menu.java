@@ -24,7 +24,7 @@ public class Menu {
 
     @Column(name = "menu_img")
     @Lob
-    private byte[] img;
+    private String img;
 
     @Column(name = "menu_info", length = 200)
     private String menuInfo;
@@ -33,6 +33,10 @@ public class Menu {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @Column(name = "sub_menu_name", nullable = false)
-    private String subNmae;
+    public void updateMenu(String name, Long price, String img, String menuInfo){
+        this.name = name;
+        this.price = price;
+        this.img = img;
+        this.menuInfo = menuInfo;
+    }
 }

@@ -27,14 +27,21 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     private final ReviewRepository reviewRepository;
     private final ReplyRepository replyRepository;
     private final ModelMapper modelMapper;
+    private final CategoryRepository categoryRepository;
+    private final FacilityRepository facilityRepository;
+    private final MenuRepository menuRepository;
+
 
     @Autowired
-    public RestaurantManageServiceImpl(RestaurantManageRepository restaurantManageRepository, ReserveRepository reserveRepository, ReviewRepository reviewRepository, ReplyRepository replyRepository, ModelMapper modelMapper) {
+    public RestaurantManageServiceImpl(RestaurantManageRepository restaurantManageRepository, ReserveRepository reserveRepository, ReviewRepository reviewRepository, ReplyRepository replyRepository, ModelMapper modelMapper, RestaurantRepository restaurantRepository, CategoryRepository categoryRepository, FacilityRepository facilityRepository, MenuRepository menuRepository) {
         this.restaurantManageRepository = restaurantManageRepository;
         this.reserveRepository = reserveRepository;
         this.reviewRepository = reviewRepository;
         this.replyRepository = replyRepository;
         this.modelMapper = modelMapper;
+        this.categoryRepository = categoryRepository;
+        this.facilityRepository = facilityRepository;
+        this.menuRepository = menuRepository;
     }
 
     @Override
@@ -53,32 +60,194 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     }
 
     @Override
-    @Transactional
     public RestaurantManageDTO updateRestaurant(Long id, RestaurantManageDTO restaurantDTO) {
         Restaurant restaurant = restaurantManageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Restaurant with ID " + id + " not found"));
+                .orElseThrow(() -> new RuntimeException("Restaurant not found"));
 
-        // 업데이트 가능한 필드를 설정
-        restaurant.updateRestaurant(restaurantDTO.getTel(), restaurantDTO.getDeposit(), restaurantDTO.getTableCount());
+        restaurant.updateRestaurant(
+                restaurantDTO.getTel(),
+                restaurantDTO.getImg(),
+                restaurantDTO.getDeposit(),
+                restaurantDTO.getTableCount(),
+                restaurantDTO.getDescription()
+        );
 
-        // 식당 정보 업데이트 후 저장
-        Restaurant updatedRestaurant = restaurantManageRepository.save(restaurant);
+        updateCategories(restaurant, restaurantDTO.getCategories());
+        updateFacilities(restaurant, restaurantDTO.getFacilities());
+        updateMenus(restaurant, restaurantDTO.getMenus());
 
-        // 업데이트된 정보를 DTO로 변환하여 반환
-        return convertToRestaurantDTO(updatedRestaurant);
+        return toManageDto(restaurant);
     }
 
-    private RestaurantManageDTO convertToRestaurantDTO(Restaurant restaurant) {
-        RestaurantManageDTO dto = new RestaurantManageDTO();
-        dto.setId(restaurant.getId());
-        dto.setName(restaurant.getName());
-        dto.setAddress(restaurant.getAddress());
-        dto.setTel(restaurant.getTel());
-        dto.setDeposit(restaurant.getDeposit());
-        dto.setTableCount(restaurant.getTableCount());
-        dto.setCrowd(restaurant.getCrowd().toString()); // Assuming Crowd is stored as an Enum
-        return dto;
+    private void updateCategories(Restaurant restaurant, List<CategoryDTO> categoryDtos) {
+        List<Category> existingCategories = categoryRepository.findByRestaurantId(restaurant.getId());
+
+        // Delete categories that are not in the new list
+        existingCategories.stream()
+                .filter(existingCategory -> categoryDtos.stream().noneMatch(dto -> dto.getId().equals(existingCategory.getId())))
+                .forEach(categoryRepository::delete);
+
+        // Add or update categories
+        categoryDtos.forEach(dto -> {
+            if (dto.getId() == null) {
+                // Add new category
+                Category category = new Category(null, dto.getName(), restaurant);
+                categoryRepository.save(category);
+            } else {
+                // Update existing category
+                existingCategories.stream()
+                        .filter(existingCategory -> existingCategory.getId().equals(dto.getId()))
+                        .findFirst()
+                        .ifPresent(existingCategory -> {
+                            existingCategory.setCategoryName(dto.getName());
+                            categoryRepository.save(existingCategory);
+                        });
+            }
+        });
     }
+
+    private void updateFacilities(Restaurant restaurant, List<FacilityDTO> facilityDtos) {
+        List<Facility> existingFacilities = facilityRepository.findByRestaurantId(restaurant.getId());
+
+        // Delete facilities that are not in the new list
+        existingFacilities.stream()
+                .filter(existingFacility -> facilityDtos.stream().noneMatch(dto -> dto.getId().equals(existingFacility.getId())))
+                .forEach(facilityRepository::delete);
+
+        // Add or update facilities
+        facilityDtos.forEach(dto -> {
+            if (dto.getId() == null) {
+                // Add new facility
+                Facility facility = new Facility(null, dto.getName(), restaurant);
+                facilityRepository.save(facility);
+            } else {
+                // Update existing facility
+                existingFacilities.stream()
+                        .filter(existingFacility -> existingFacility.getId().equals(dto.getId()))
+                        .findFirst()
+                        .ifPresent(existingFacility -> {
+                            existingFacility.setFacilityName(dto.getName());
+                            facilityRepository.save(existingFacility);
+                        });
+            }
+        });
+    }
+
+    private void updateMenus(Restaurant restaurant, List<MenuDTO> menuDtos) {
+        List<Menu> existingMenus = menuRepository.findByRestaurantId(restaurant.getId());
+
+        // Delete menus that are not in the new list
+        existingMenus.stream()
+                .filter(existingMenu -> menuDtos.stream().noneMatch(dto -> dto.getId().equals(existingMenu.getId())))
+                .forEach(menuRepository::delete);
+
+        // Add or update menus
+        menuDtos.forEach(dto -> {
+            if (dto.getId() == null) {
+                // Add new menu
+                Menu menu = new Menu(null, dto.getName(), dto.getPrice(), dto.getImg(), dto.getMenuInfo(), restaurant);
+                menuRepository.save(menu);
+            } else {
+                // Update existing menu
+                existingMenus.stream()
+                        .filter(existingMenu -> existingMenu.getId().equals(dto.getId()))
+                        .findFirst()
+                        .ifPresent(existingMenu-> {
+                            existingMenu.updateMenu(dto.getName(), dto.getPrice(), dto.getImg(), dto.getMenuInfo());
+                            menuRepository.save(existingMenu);
+                        });
+            }
+        });
+    }
+
+    private RestaurantManageDTO toManageDto(Restaurant restaurant) {
+        return RestaurantManageDTO.builder()
+                .id(restaurant.getId())
+                .name(restaurant.getName())
+                .address(restaurant.getAddress())
+                .tel(restaurant.getTel())
+                .crowd(restaurant.getCrowd())
+                .img(restaurant.getImg())
+                .deposit(restaurant.getDeposit())
+                .tableCount(restaurant.getTableCount())
+                .description(restaurant.getDescription())
+                .memberId(restaurant.getMember().getId())
+                .categories(categoryRepository.findByRestaurantId(restaurant.getId()).stream()
+                        .map(this::toCategoryDto)
+                        .collect(Collectors.toList()))
+                .facilities(facilityRepository.findByRestaurantId(restaurant.getId()).stream()
+                        .map(this::toFacilityDto)
+                        .collect(Collectors.toList()))
+                .menus(menuRepository.findByRestaurantId(restaurant.getId()).stream()
+                        .map(this::toMenuDto)
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    private CategoryDTO toCategoryDto(Category category) {
+        return CategoryDTO.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .restaurantId(category.getRestaurant().getId())
+                .build();
+    }
+
+    private FacilityDTO toFacilityDto(Facility facility) {
+        return FacilityDTO.builder()
+                .id(facility.getId())
+                .name(facility.getName())
+                .restaurantId(facility.getRestaurant().getId())
+                .build();
+    }
+
+    private MenuDTO toMenuDto(Menu menu) {
+        return MenuDTO.builder()
+                .id(menu.getId())
+                .name(menu.getName())
+                .price(menu.getPrice())
+                .img(menu.getImg())
+                .menuInfo(menu.getMenuInfo())
+                .restaurantId(menu.getRestaurant().getId())
+                .build();
+    }
+
+
+//    @Override
+//    @Transactional
+//    public RestaurantManageDTO updateRestaurant(Long id, RestaurantManageDTO restaurantDTO) {
+//        Restaurant restaurant = restaurantManageRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Restaurant with ID " + id + " not found"));
+//
+//        // 업데이트 가능한 필드를 설정
+//        restaurant.updateRestaurant(restaurantDTO.getTel(), restaurantDTO.getImg(), restaurantDTO.getDeposit(), restaurantDTO.getTableCount(), restaurant.getDescription());
+//
+//        // 식당 정보 업데이트 후 저장
+//        Restaurant updatedRestaurant = restaurantManageRepository.save(restaurant);
+//
+//        // 업데이트된 정보를 DTO로 변환하여 반환
+//        return convertToRestaurantDTO(updatedRestaurant);
+//    }
+//
+//    private RestaurantManageDTO convertToRestaurantDTO(Restaurant restaurant) {
+//        return RestaurantManageDTO.builder()
+//                .id(restaurant.getId())
+//                .name(restaurant.getName())
+//                .address(restaurant.getAddress())
+//                .tel(restaurant.getTel())
+//                .crowd(restaurant.getCrowd())
+//                .img(restaurant.getImg())
+//                .deposit(restaurant.getDeposit())
+//                .tableCount(restaurant.getTableCount())
+//                .description(restaurant.getDescription())
+//                .memberId(restaurant.getMember().getId())
+//                .build();
+//    }
+
+
+
+
+
+
 
     //    식당의 crowd를 변환하는 메소드
     @Override
@@ -202,6 +371,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
                 .score(review.getScore())
                 .deleteStatus(review.isDeleteStatus())
                 .img(review.getImg())
+                .reservationName(review.getReservation().getReservationName())
                 .build();
     }
 

@@ -37,9 +37,10 @@ public class RestaurantManageController {
 
     //식당정보를 수정하는 메소드
     @PutMapping("/{restaurant-id}")
-    public ResponseEntity<RestaurantManageDTO> updateRestaurant(@PathVariable Long id, @RequestBody RestaurantManageDTO restaurantDTO) {
-        RestaurantManageDTO updatedRestaurant = restaurantManageService.updateRestaurant(id, restaurantDTO);
-        return ResponseEntity.ok(updatedRestaurant);
+    public ResponseEntity<RestaurantManageDTO> updateRestaurant(@PathVariable("restaurant-id") Long id, @RequestBody RestaurantManageDTO restaurantDTO) {
+        restaurantDTO.setId(id);
+        System.out.println(restaurantDTO+"!@#!");
+        return ResponseEntity.ok(restaurantManageService.updateRestaurant(id, restaurantDTO));
     }
 
     //멤버id로 해당하는 식당 리스트를 조회하는 메소드

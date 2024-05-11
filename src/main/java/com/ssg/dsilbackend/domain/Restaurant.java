@@ -32,13 +32,16 @@ public class Restaurant {
 
     @Column(name = "restaurant_img")
     @Lob
-    private byte[] img;
+    private String img;
 
     @Column(name = "restaurant_deposit")
     private Long deposit;
 
     @Column(name = "restaurant_table_count", nullable = false)
     private Long tableCount;
+
+    @Column(name = "restaurant_description", length = 100)
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -48,10 +51,12 @@ public class Restaurant {
         this.crowd = crowd;
     }
 
-    public void updateRestaurant(String tel, Long deposit, Long tableCount){
+    public void updateRestaurant(String tel, String img, Long deposit, Long tableCount, String description){
         this.tel = tel;
+        this.img = img;
         this.deposit = deposit;
         this.tableCount = tableCount;
+        this.description = description;
     }
 
 }

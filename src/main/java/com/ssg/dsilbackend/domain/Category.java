@@ -24,4 +24,8 @@ public class Category {
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    public void setCategoryName(CategoryName name){
+        this.name = name;
+    }
 }
