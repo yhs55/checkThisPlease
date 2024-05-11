@@ -376,6 +376,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
         return convertToReviewDto(review);
     }
 
+
     private ReviewDTO convertToReviewDto(Review review) {
         return ReviewDTO.builder()
                 .id(review.getId())
@@ -391,4 +392,27 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
                 .build();
     }
 
+    @Override
+    public List<CategoryDTO> getCategoryLIst(Long restaurantId) {
+        List<Category> categoryList = categoryRepository.findByRestaurantId(restaurantId);
+        return categoryList.stream()
+                .map(this::toCategoryDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FacilityDTO> getFacilityList(Long restaurantId) {
+        List<Facility> facilityList = facilityRepository.findByRestaurantId(restaurantId);
+        return facilityList.stream()
+                .map(this::toFacilityDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MenuDTO> getMenuList(Long restaurantId) {
+        List<Menu> menuList = menuRepository.findByRestaurantId(restaurantId);
+        return menuList.stream()
+                .map(this::toMenuDto)
+                .collect(Collectors.toList());
+    }
 }
