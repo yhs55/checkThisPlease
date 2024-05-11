@@ -1,8 +1,6 @@
 package com.ssg.dsilbackend.controller;
 
-import com.ssg.dsilbackend.domain.Reply;
-import com.ssg.dsilbackend.domain.Reservation;
-import com.ssg.dsilbackend.domain.Review;
+import com.ssg.dsilbackend.domain.*;
 import com.ssg.dsilbackend.dto.AvailableTimeTable;
 import com.ssg.dsilbackend.dto.Crowd;
 import com.ssg.dsilbackend.dto.restaurantManage.*;
@@ -12,7 +10,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.ssg.dsilbackend.domain.Restaurant;
 
 import java.util.List;
 import java.util.Map;
@@ -116,14 +113,14 @@ public class RestaurantManageController {
 
 
     // 새로운 AvailableTime 인스턴스를 생성하고 해당 예약가능시간DTO를 리턴하는 메소드
-    @PostMapping("/{restaurantId}/available-times")
+    @PostMapping("/{restaurant-id}/available-times")
     public ResponseEntity<AvailableTimeDTO> createAvailableTime(@PathVariable Long restaurantId, @RequestParam AvailableTimeTable slot) {
         AvailableTimeDTO newAvailableTimeDTO = restaurantManageService.createAvailableTime(restaurantId, slot);
         return ResponseEntity.ok(newAvailableTimeDTO);
     }
 
     // 지정된 AvailableTime 인스턴스를 삭제하는 메소드
-    @DeleteMapping("/{restaurantId}/available-times")
+    @DeleteMapping("/{restaurant-id}/available-times")
     public ResponseEntity<Void> deleteAvailableTime(@PathVariable Long restaurantId, @RequestParam AvailableTimeTable slot) {
         restaurantManageService.deleteAvailableTime(restaurantId, slot);
         return ResponseEntity.ok().build();
@@ -137,14 +134,35 @@ public class RestaurantManageController {
 
 
     // 리뷰 삭제요청시 deleteStatus를 true로!
-    @PatchMapping("/reviews/{reviewId}/delete-status")
-    public ResponseEntity<ReviewDTO> updateReviewDeleteStatus(@PathVariable("reviewId") Long reviewId, @RequestParam boolean deleteStatus) {
+    @PatchMapping("/reviews/{review-id}/delete-status")
+    public ResponseEntity<ReviewDTO> updateReviewDeleteStatus(@PathVariable("review-id") Long reviewId, @RequestParam boolean deleteStatus) {
         try {
             ReviewDTO reviewDTO = restaurantManageService.updateReviewDeleteStatus(reviewId, deleteStatus);
             return ResponseEntity.ok(reviewDTO);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(null);
         }
+    }
+
+    //식당수정창에서 카테고리들을 불러올 메소드
+    @GetMapping("/{restaurant-id}/categories")
+    public ResponseEntity<List<CategoryDTO>> getCategories(@PathVariable("restaurant-id") Long restaurandId){
+        List<CategoryDTO> categoryDTOS = restaurantManageService.getCategoryLIst(restaurandId);
+        return ResponseEntity.ok(categoryDTOS);
+    }
+
+    //식당수정창에서 편의시설들을 불러올 메소드
+    @GetMapping("/{restaurant-id}/facilities")
+    public ResponseEntity<List<FacilityDTO>> getFacilities(@PathVariable("restaurant-id") Long restaurandId){
+        List<FacilityDTO> facilityDTOS = restaurantManageService.getFacilityList(restaurandId);
+        return ResponseEntity.ok(facilityDTOS);
+    }
+
+    //식당수정창에서 메뉴들을 불러올 메소드
+    @GetMapping("/{restaurant-id}/menus")
+    public ResponseEntity<List<MenuDTO>> getMenus(@PathVariable("restaurant-id") Long restaurandId){
+        List<MenuDTO> menuDTOS = restaurantManageService.getMenuList(restaurandId);
+        return ResponseEntity.ok(menuDTOS);
     }
 
 }
