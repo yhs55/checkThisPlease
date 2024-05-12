@@ -38,14 +38,22 @@ public class Review {
     @Column(name = "review_delete_status", nullable = false)
     private boolean deleteStatus;
 
-    @Column(name = "review_img")
+
+    @Column(name = "review_img", length = 500)
     private String img;
 
-    public void setReply(Reply reply){
+    public void setReply(Reply reply) {
         this.reply = reply;
     }
-    public void setDeleteStatus(boolean deleteStatus){
+
+    public void setRestaurantReviewDeleteStatus(boolean deleteStatus) {
         this.deleteStatus = deleteStatus;
     }
 
-}
+        public void setDeleteStatus ( boolean del){
+            this.deleteStatus = true;
+
+        }
+
+    }
+

@@ -20,6 +20,7 @@ public class MydiningReserveDTO {
     private double averageReviewScore;
     private long reviewCount;  // 리뷰 수 필드
     private Long reservationId;
+    private String restaurantImg;
 
     public static MydiningReserveDTO from(Reservation entity, Double averageReviewScore, long reviewCount) {
         return MydiningReserveDTO.builder()
@@ -32,6 +33,7 @@ public class MydiningReserveDTO {
                 .peopleCount(entity.getPeopleCount())
                 .averageReviewScore(Math.round(averageReviewScore * 10.0) / 10.0)
                 .reviewCount(reviewCount)
+                .restaurantImg(entity.getRestaurant().getImg())
                 .build();
     }
 }

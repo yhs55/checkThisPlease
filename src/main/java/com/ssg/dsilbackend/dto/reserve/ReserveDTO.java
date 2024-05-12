@@ -1,15 +1,24 @@
 package com.ssg.dsilbackend.dto.reserve;
 
-import com.ssg.dsilbackend.domain.Members;
-import com.ssg.dsilbackend.domain.Restaurant;
-import com.ssg.dsilbackend.dto.AvailableTimeTable;
-import com.ssg.dsilbackend.dto.ReservationStateName;
-import lombok.Builder;
-import lombok.Data;
+
+import lombok.Getter;
+import lombok.Setter;
+
 
 import java.time.LocalDate;
 
 
+@Getter
+@Setter
 public class ReserveDTO {
+    private Long restaurantId;
+    private Long memberId;
+    private String reservationStateName;
+    private int peopleCount;
+    private String reservationTime;
+    private String reservationName;
+    private String requestContent;
+    private LocalDate reservationDate;
+    private String reservationTel;
 
 }

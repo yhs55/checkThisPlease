@@ -120,7 +120,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
         facilityDtos.forEach(dto -> {
             if (dto.getId() == null) {
                 // Add new facility
-                Facility facility = new Facility(null, dto.getName(), restaurant);
+                Facility facility = Facility.builder().name(dto.getName()).restaurant(restaurant).build();
                 facilityRepository.save(facility);
             } else {
                 // Update existing facility
@@ -148,7 +148,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
         menuDtos.forEach(dto -> {
             if (dto.getId() == null) {
                 // Add new menu
-                Menu menu = new Menu(null, dto.getName(), dto.getPrice(), dto.getImg(), dto.getMenuInfo(), restaurant);
+                Menu menu = Menu.builder().name(dto.getName()).price(dto.getPrice()).img(dto.getImg()).menuInfo(dto.getMenuInfo()).restaurant(restaurant).build();
                 menuRepository.save(menu);
             } else {
                 // Update existing menu
@@ -374,7 +374,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     @Override
     public ReviewDTO updateReviewDeleteStatus(Long reviewId, boolean deleteStatus) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("Review not found"));
-        review.setDeleteStatus(deleteStatus);
+        review.setRestaurantReviewDeleteStatus(deleteStatus);
         reviewRepository.save(review);
         return convertToReviewDto(review);
     }

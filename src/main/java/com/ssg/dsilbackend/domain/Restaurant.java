@@ -30,8 +30,8 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private Crowd crowd;
 
-    @Column(name = "restaurant_img")
-    @Lob
+
+    @Column(name = "restaurant_img", length = 500)
     private String img;
 
     @Column(name = "restaurant_deposit")
@@ -46,6 +46,7 @@ public class Restaurant {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Members member;
+
 
     public void setRestaurantCrowd(Crowd crowd) {
         this.crowd = crowd;

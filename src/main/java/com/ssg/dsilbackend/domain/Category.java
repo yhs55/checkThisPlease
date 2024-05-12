@@ -28,4 +28,5 @@ public class Category {
     public void setCategoryName(CategoryName name){
         this.name = name;
     }
+
 }

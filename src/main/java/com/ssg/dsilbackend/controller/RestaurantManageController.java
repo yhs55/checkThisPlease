@@ -37,7 +37,7 @@ public class RestaurantManageController {
     @PutMapping("/{restaurant-id}")
     public ResponseEntity<RestaurantManageDTO> updateRestaurant(@PathVariable("restaurant-id") Long id, @RequestBody RestaurantManageDTO restaurantDTO) {
         restaurantDTO.setId(id);
-        System.out.println(restaurantDTO+"식당수정 메소드의!");
+        System.out.println("식당수정 메소드의 식당디티오"+restaurantDTO);
         return ResponseEntity.ok(restaurantManageService.updateRestaurant(id, restaurantDTO));
     }
 
@@ -127,6 +127,7 @@ public class RestaurantManageController {
         return ResponseEntity.ok().build();
     }
 
+
     @GetMapping("/{restaurant-id}/available-times")
     public ResponseEntity<List<AvailableTimeDTO>> getAvailableTimes(@PathVariable("restaurant-id") Long id) {
         List<AvailableTimeDTO> availableTimes = restaurantManageService.getAvailableTimes(id);
@@ -182,3 +183,6 @@ public class RestaurantManageController {
     }
 
 }
+
+
+
