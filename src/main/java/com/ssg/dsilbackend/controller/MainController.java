@@ -27,4 +27,5 @@ public class MainController {
         }
         return ResponseEntity.ok(restaurants); // 정상적으로 데이터가 있으면 200 OK와 함께 데이터 반환
     }
+
 }

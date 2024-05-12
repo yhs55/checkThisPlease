@@ -51,8 +51,10 @@ public class Members {
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;
 
+
     public void setMemberState(Boolean status) {
         this.status = status;
     }
+
 
 }

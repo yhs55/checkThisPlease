@@ -1,8 +1,9 @@
 package com.ssg.dsilbackend.dto.reserve;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
+
 
 import java.time.LocalDate;
 
@@ -19,4 +20,5 @@ public class ReserveDTO {
     private String requestContent;
     private LocalDate reservationDate;
     private String reservationTel;
+
 }
