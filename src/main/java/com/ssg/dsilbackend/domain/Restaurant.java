@@ -6,7 +6,6 @@ import lombok.*;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +30,7 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private Crowd crowd;
 
+
     @Column(name = "restaurant_img", length = 500)
     private String img;
 
@@ -40,8 +40,25 @@ public class Restaurant {
     @Column(name = "restaurant_table_count", nullable = false)
     private Long tableCount;
 
+    @Column(name = "restaurant_description", length = 100)
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Members member;
+
+
+    public void setRestaurantCrowd(Crowd crowd) {
+        this.crowd = crowd;
+    }
+
+    public void updateRestaurant(String tel, String img, Long deposit, Long tableCount, String description){
+        this.tel = tel;
+        this.img = img;
+        this.deposit = deposit;
+        this.tableCount = tableCount;
+        this.description = description;
+    }
+
 }
 
