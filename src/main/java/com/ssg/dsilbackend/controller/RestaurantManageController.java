@@ -8,6 +8,7 @@ import com.ssg.dsilbackend.service.RestaurantManageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class RestaurantManageController {
     @PutMapping("/{restaurant-id}")
     public ResponseEntity<RestaurantManageDTO> updateRestaurant(@PathVariable("restaurant-id") Long id, @RequestBody RestaurantManageDTO restaurantDTO) {
         restaurantDTO.setId(id);
-        System.out.println(restaurantDTO+"!@#!");
+        System.out.println(restaurantDTO+"식당수정 메소드의!");
         return ResponseEntity.ok(restaurantManageService.updateRestaurant(id, restaurantDTO));
     }
 
@@ -55,7 +56,7 @@ public class RestaurantManageController {
     public ResponseEntity<RestaurantManageDTO> updateCrowd(@PathVariable("restaurantId") Long restaurantId, @RequestParam("status") Crowd crowd) {
         try {
             RestaurantManageDTO updatedRestaurantDTO = restaurantManageService.updateCrowd(restaurantId, crowd);
-            System.out.println(updatedRestaurantDTO);
+            System.out.println("혼잡도변경메소드의 restaurantDTO는 바로"+updatedRestaurantDTO);
             return ResponseEntity.ok(updatedRestaurantDTO);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -114,14 +115,14 @@ public class RestaurantManageController {
 
     // 새로운 AvailableTime 인스턴스를 생성하고 해당 예약가능시간DTO를 리턴하는 메소드
     @PostMapping("/{restaurant-id}/available-times")
-    public ResponseEntity<AvailableTimeDTO> createAvailableTime(@PathVariable Long restaurantId, @RequestParam AvailableTimeTable slot) {
+    public ResponseEntity<AvailableTimeDTO> createAvailableTime(@PathVariable("restaurant-id") Long restaurantId, @RequestParam AvailableTimeTable slot) {
         AvailableTimeDTO newAvailableTimeDTO = restaurantManageService.createAvailableTime(restaurantId, slot);
         return ResponseEntity.ok(newAvailableTimeDTO);
     }
 
     // 지정된 AvailableTime 인스턴스를 삭제하는 메소드
     @DeleteMapping("/{restaurant-id}/available-times")
-    public ResponseEntity<Void> deleteAvailableTime(@PathVariable Long restaurantId, @RequestParam AvailableTimeTable slot) {
+    public ResponseEntity<Void> deleteAvailableTime(@PathVariable("restaurant-id") Long restaurantId, @RequestParam AvailableTimeTable slot) {
         restaurantManageService.deleteAvailableTime(restaurantId, slot);
         return ResponseEntity.ok().build();
     }
@@ -146,23 +147,38 @@ public class RestaurantManageController {
 
     //식당수정창에서 카테고리들을 불러올 메소드
     @GetMapping("/{restaurant-id}/categories")
-    public ResponseEntity<List<CategoryDTO>> getCategories(@PathVariable("restaurant-id") Long restaurandId){
-        List<CategoryDTO> categoryDTOS = restaurantManageService.getCategoryLIst(restaurandId);
-        return ResponseEntity.ok(categoryDTOS);
+    public ResponseEntity<List<CategoryDTO>> getCategories(@PathVariable("restaurant-id") Long restaurantId){
+        try {
+            List<CategoryDTO> categoryDTOS = restaurantManageService.getCategoryList(restaurantId);
+            System.out.println(categoryDTOS+"여기서도 확인");
+            return ResponseEntity.ok(categoryDTOS);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     //식당수정창에서 편의시설들을 불러올 메소드
     @GetMapping("/{restaurant-id}/facilities")
-    public ResponseEntity<List<FacilityDTO>> getFacilities(@PathVariable("restaurant-id") Long restaurandId){
-        List<FacilityDTO> facilityDTOS = restaurantManageService.getFacilityList(restaurandId);
-        return ResponseEntity.ok(facilityDTOS);
+    public ResponseEntity<List<FacilityDTO>> getFacilities(@PathVariable("restaurant-id") Long restaurantId){
+        try {
+            List<FacilityDTO> facilityDTOS = restaurantManageService.getFacilityList(restaurantId);
+            return ResponseEntity.ok(facilityDTOS);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     //식당수정창에서 메뉴들을 불러올 메소드
     @GetMapping("/{restaurant-id}/menus")
-    public ResponseEntity<List<MenuDTO>> getMenus(@PathVariable("restaurant-id") Long restaurandId){
-        List<MenuDTO> menuDTOS = restaurantManageService.getMenuList(restaurandId);
-        return ResponseEntity.ok(menuDTOS);
+    public ResponseEntity<List<MenuDTO>> getMenus(@PathVariable("restaurant-id") Long restaurantId){
+        try {
+            List<MenuDTO> menuDTOS = restaurantManageService.getMenuList(restaurantId);
+            return ResponseEntity.ok(menuDTOS);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 }

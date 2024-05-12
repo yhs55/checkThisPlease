@@ -84,14 +84,15 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
         // Delete categories that are not in the new list
         existingCategories.stream()
-                .filter(existingCategory -> categoryDtos.stream().noneMatch(dto -> dto.getId().equals(existingCategory.getId())))
+                .filter(existingCategory -> categoryDtos.stream()
+                        .noneMatch(dto -> dto.getId() != null && dto.getId().equals(existingCategory.getId())))
                 .forEach(categoryRepository::delete);
 
         // Add or update categories
         categoryDtos.forEach(dto -> {
             if (dto.getId() == null) {
                 // Add new category
-                Category category = new Category(null, dto.getName(), restaurant);
+                Category category = Category.builder().name(dto.getName()).restaurant(restaurant).build();
                 categoryRepository.save(category);
             } else {
                 // Update existing category
@@ -111,7 +112,8 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
         // Delete facilities that are not in the new list
         existingFacilities.stream()
-                .filter(existingFacility -> facilityDtos.stream().noneMatch(dto -> dto.getId().equals(existingFacility.getId())))
+                .filter(existingFacility -> facilityDtos.stream()
+                        .noneMatch(dto -> dto.getId() != null && dto.getId().equals(existingFacility.getId())))
                 .forEach(facilityRepository::delete);
 
         // Add or update facilities
@@ -138,7 +140,8 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
 
         // Delete menus that are not in the new list
         existingMenus.stream()
-                .filter(existingMenu -> menuDtos.stream().noneMatch(dto -> dto.getId().equals(existingMenu.getId())))
+                .filter(existingMenu -> menuDtos.stream()
+                        .noneMatch(dto -> dto.getId() != null && dto.getId().equals(existingMenu.getId())))
                 .forEach(menuRepository::delete);
 
         // Add or update menus
@@ -393,8 +396,9 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     }
 
     @Override
-    public List<CategoryDTO> getCategoryLIst(Long restaurantId) {
+    public List<CategoryDTO> getCategoryList(Long restaurantId) {
         List<Category> categoryList = categoryRepository.findByRestaurantId(restaurantId);
+        System.out.println("불러온 카테고리엔티티들:"+categoryList);
         return categoryList.stream()
                 .map(this::toCategoryDto)
                 .collect(Collectors.toList());
@@ -403,6 +407,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     @Override
     public List<FacilityDTO> getFacilityList(Long restaurantId) {
         List<Facility> facilityList = facilityRepository.findByRestaurantId(restaurantId);
+        System.out.println("불러온 편의시설엔티티들:"+facilityList);
         return facilityList.stream()
                 .map(this::toFacilityDto)
                 .collect(Collectors.toList());
@@ -411,6 +416,7 @@ public class RestaurantManageServiceImpl implements RestaurantManageService {
     @Override
     public List<MenuDTO> getMenuList(Long restaurantId) {
         List<Menu> menuList = menuRepository.findByRestaurantId(restaurantId);
+        System.out.println("불러온 메뉴엔티티들:"+menuList);
         return menuList.stream()
                 .map(this::toMenuDto)
                 .collect(Collectors.toList());

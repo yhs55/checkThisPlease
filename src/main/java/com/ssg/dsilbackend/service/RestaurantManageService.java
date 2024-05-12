@@ -37,7 +37,7 @@ public interface RestaurantManageService {
 
     ReviewDTO updateReviewDeleteStatus(Long reviewId, boolean deleteStatus);
 
-    List<CategoryDTO> getCategoryLIst(Long restaurantId);
+    List<CategoryDTO> getCategoryList(Long restaurantId);
 
     List<FacilityDTO> getFacilityList(Long restaurantId);
 
