@@ -13,20 +13,25 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class RestaurantRegisterDTO {
-    private String email;
-    private String password;
-    private String restaurantName;
-    private String registerNumber;
-    private String userName;
-    private String userTel;
-    private String restaurantTel;
-    private String userAddress;
-    private String restaurantAddress;
-    private String postcode;
-    private Long tableCount;
-    private Long deposit;
-    private String img;
-    private String[] categories; // 열거형 배열로 변경
-    private List<RegisterMenuDTO> menuDTOs; // 메뉴 DTO 리스트
+
+    private String email; // 멤버
+    private String password; // 멤버
+    private String userName; // 멤버
+    private String userTel; // 멤버
+    private String userAddress; // 멤버
+    private String restaurantName; // 식당
+    private String registerNumber; // 식당
+    private String restaurantTel; //식당
+    private String restaurantAddress; //식당
+    private String postcode; // 식당
+    private Long tableCount; //식당
+    private Long deposit; // 식당
+    private String img; // 식당
+    private String description; // 식당
+    private String[] categories; // 식당 // 카테고리
+    private List<RegisterMenuDTO> menuDTOs; // 식당 // 메뉴
+    private String[] facilities; // 식당 // 편의시설
+
 }

@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@ToString
 @Table(name = "payment")
 public class Payment {
     @Id
@@ -47,4 +48,6 @@ public class Payment {
 
     @Column(name = "buyer_tel")
     private String buyerTel;
+
 }
+

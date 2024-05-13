@@ -7,18 +7,21 @@ import java.util.List;
 public interface UserManageService {
 
     void signUp(UserManageDTO userManageDTO);
-    UserManageDTO getUserInfoByEmail(UserManageDTO userManageDTO);
+    UserManageDTO getUserInfoByEmail(String email);
     void modifyUserInfo(UserManageDTO userManageDTO);
-    void deleteUserInfo(UserManageDTO userManageDTO);
+    void deleteUserInfo(String email);
 
-    List<String> getRestaurantNameByEmail(UserManageDTO userManageDTO);
-    void modifyOwnerInfo(OwnerManageDTO ownerManageDTO);
+    List<OwnerManageDTO> getRestaurantByEmail(String email);
+    void modifyOwnerData(OwnerManageDTO ownerManageDTO);
 
     List<UserManageDTO> getUserInfoList();
     List<OwnerManageDTO> getOwnerInfoList();
 
-    List<ReviewManageDTO> getReviewInfoList();
+    void modifyOwnerInfo(OwnerManageDTO ownerManageDTO);
+    void removeRestaurantByName(String name);
 
+    List<ReviewManageDTO> getReviewInfoList();
     void registerRestaurantInfo(RestaurantRegisterDTO dto);
+
 
 }
