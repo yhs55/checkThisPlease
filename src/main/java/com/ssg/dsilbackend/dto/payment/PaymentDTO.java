@@ -19,4 +19,5 @@ public class PaymentDTO {
     private String buyerEmail;
     private String buyerName;
     private String buyerTel;
+    private Long reservationId;
 }
