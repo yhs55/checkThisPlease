@@ -17,11 +17,19 @@ public interface UserManageService {
     List<UserManageDTO> getUserInfoList();
     List<OwnerManageDTO> getOwnerInfoList();
 
+
+    List<ReviewReplyDTO> getReviewReplyList();
+
     void modifyOwnerInfo(OwnerManageDTO ownerManageDTO);
     void removeRestaurantByName(String name);
 
-    List<ReviewManageDTO> getReviewInfoList();
+
     void registerRestaurantInfo(RestaurantRegisterDTO dto);
+    void removeReview(Long reviewId);
+
+    void removeReply(Long replyId);
+
+
 
 
 }

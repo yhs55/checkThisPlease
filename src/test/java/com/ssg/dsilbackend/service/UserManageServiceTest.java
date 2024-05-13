@@ -9,7 +9,11 @@ import com.ssg.dsilbackend.dto.PermissionRole;
 import com.ssg.dsilbackend.dto.userManage.OwnerManageDTO;
 =======
 import com.ssg.dsilbackend.dto.userManage.RestaurantRegisterDTO;
+<<<<<<< HEAD
+import com.ssg.dsilbackend.dto.userManage.ReviewReplyDTO;
+=======
 >>>>>>> d170e170df1b7b7ad293d71ad4488c750a51d926
+>>>>>>> 6e6f942ebc970aba78ff2502983b4892db178252
 import com.ssg.dsilbackend.dto.userManage.UserManageDTO;
 import com.ssg.dsilbackend.repository.*;
 import lombok.extern.log4j.Log4j2;
@@ -177,6 +181,9 @@ public class UserManageServiceTest {
         log.info("여기까지 왔니");
     }
 
+<<<<<<< HEAD
+
+=======
     @Test
     public void getUserInfoListTest(){
         List<Members> userDataList = userManageRepository.findMembersByPermissionRoleAndStatus(PermissionRole.USER, true);
@@ -246,6 +253,7 @@ public class UserManageServiceTest {
 
         log.info(ownerWithRestaurants);
     }
+>>>>>>> 6e6f942ebc970aba78ff2502983b4892db178252
 
 
 }

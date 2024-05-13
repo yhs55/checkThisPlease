@@ -49,10 +49,16 @@ public class Review {
         this.deleteStatus = deleteStatus;
     }
 
-        public void setDeleteStatus ( boolean del){
-            this.deleteStatus = true;
 
-        }
+    public void setDeleteStatus(boolean del) {
+        this.deleteStatus = true;
 
     }
+
+
+    public void setReplyNUll() {
+        this.reply = null;
+    }
+
+}
 
