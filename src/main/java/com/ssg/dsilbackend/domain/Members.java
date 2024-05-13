@@ -1,5 +1,7 @@
 package com.ssg.dsilbackend.domain;
 
+import com.ssg.dsilbackend.dto.userManage.OwnerManageDTO;
+import com.ssg.dsilbackend.dto.userManage.UserManageDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class Members {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "point_id", nullable = false)
+    @JoinColumn(name = "point_id")
     private Point point;
 
     @ManyToOne
@@ -51,18 +52,27 @@ public class Members {
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<Restaurant> restaurants;
-
     public void setMemberState(Boolean status) {
         this.status = status;
     }
 
-    public void updateMemberInfo(Members members){
-        this.password = members.getPassword();
-        this.tel = members.getTel();
-        this.address = members.getAddress();
-        this.postcode = members.getPostcode();
+    public void updatePassword(String password){
+        this.password = password;
+    }
+
+    public void updateMemberInfo(UserManageDTO userManageDTO){
+        this.name = userManageDTO.getName();
+        this.tel = userManageDTO.getTel();
+        this.address = userManageDTO.getAddress();
+        this.postcode = userManageDTO.getPostcode();
+
+        // Point 엔티티의 currentPoint 값을 수정
+        if (userManageDTO.getPoint() != null) {
+            this.point.setCurrentPoint(userManageDTO.getPoint().getCurrentPoint());
+        }
+    }
+    public void setOwnerPostcode(){
+        this.postcode = "000000";
     }
 
 }
