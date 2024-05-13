@@ -2,6 +2,7 @@ package com.ssg.dsilbackend.repository;
 
 import com.ssg.dsilbackend.domain.Reservation;
 import com.ssg.dsilbackend.domain.Review;
+import com.ssg.dsilbackend.dto.userManage.ReviewReplyDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Double findAverageScoreByRestaurantId(@Param("restaurantId") Long restaurantId);
     // 멤버아이디로 예약 리스트 뽑기
     List<Review> findByReservationMembersId(Long memberId);
+
+
 
 }
 

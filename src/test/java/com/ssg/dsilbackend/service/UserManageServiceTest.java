@@ -5,6 +5,7 @@ import com.ssg.dsilbackend.domain.Permission;
 import com.ssg.dsilbackend.domain.Point;
 import com.ssg.dsilbackend.domain.Restaurant;
 import com.ssg.dsilbackend.dto.userManage.RestaurantRegisterDTO;
+import com.ssg.dsilbackend.dto.userManage.ReviewReplyDTO;
 import com.ssg.dsilbackend.dto.userManage.UserManageDTO;
 import com.ssg.dsilbackend.repository.PermissionManageRepository;
 import com.ssg.dsilbackend.repository.PointManageRepository;
@@ -139,10 +140,7 @@ public class UserManageServiceTest {
 
     }
 
-    @Test
-    public void modifyOwnerInfoTest(){
 
-    }
 
 
 }

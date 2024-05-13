@@ -17,8 +17,13 @@ public interface UserManageService {
     List<UserManageDTO> getUserInfoList();
     List<OwnerManageDTO> getOwnerInfoList();
 
-    List<ReviewManageDTO> getReviewInfoList();
+    List<ReviewReplyDTO> getReviewReplyList();
 
     void registerRestaurantInfo(RestaurantRegisterDTO dto);
+    void removeReview(Long reviewId);
+
+    void removeReply(Long replyId);
+
+
 
 }

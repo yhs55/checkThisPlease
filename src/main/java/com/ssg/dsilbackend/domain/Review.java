@@ -45,4 +45,8 @@ public class Review {
         this.deleteStatus = true;
     }
 
+    public void setReplyNUll(){
+        this.reply = null;
+    }
+
 }

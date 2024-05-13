@@ -165,7 +165,7 @@ public class UserManageServiceImpl implements UserManageService {
         return ownerList;
     }
 
-    // 등록해줘야 하는 식당 목록
+    // 등록해줘야 하는 식당
     @Transactional
     public void registerRestaurantInfo(RestaurantRegisterDTO dto) {
 
@@ -223,6 +223,7 @@ public class UserManageServiceImpl implements UserManageService {
             }
         }
 
+        // 편의시설 정보 생성 및 저장
         if (dto.getFacilities() != null) {
             for (String facilityName : dto.getFacilities()) {
                 Facility facility = Facility.builder()
@@ -234,35 +235,31 @@ public class UserManageServiceImpl implements UserManageService {
         }
     }
 
-
-    // 리뷰 및 댓글 삭제 관리 -> 다시 확인 필요
-
-    @Override
-    public List<ReviewManageDTO> getReviewInfoList() {
-        List<Review> reviewList = reviewManageRepository.getReviewByDeleteStatus(true);
-
-        // Review 객체들의 reply_id를 추출하여 해당하는 Reply 객체를 가져옴
-        List<Reply> replyList = reviewList.stream()
-                .map(review -> review.getReply().getId())
-                .map(replyId -> replyManageRepository.findById(replyId))
-                .filter(Optional::isPresent) // Optional 객체가 존재하는지 확인
-                .map(Optional::get) // Optional 객체를 추출하여 Reply 객체로 변환
-                .collect(Collectors.toList());
-
-
-        List<ReviewManageDTO> reviewReplyPairDTOList = reviewList.stream()
-                .map(review -> {
-                    Long replyId = review.getReply().getId();
-                    Reply reply = replyManageRepository.findById(replyId).orElse(null);
-
-                    return new ReviewManageDTO(
-//                            review, reply
-                    );
-                })
-                .collect(Collectors.toList());
-
-        return reviewReplyPairDTOList;
+    // 리뷰, 댓글 정보 리스트 가져오기
+    @Transactional
+    public List<ReviewReplyDTO> getReviewReplyList() {
+        List<ReviewReplyDTO> reviewReplyDTOS = reviewManageRepository.findReviewDetails();
+        return reviewReplyDTOS;
     }
 
+    @Transactional
+    public void removeReview(Long reviewId) {
+        System.out.println(reviewId+" 서비스에서 받음");
+        Review review = reviewManageRepository.getById(reviewId);
+        Reply reply = review.getReply();
+        reviewManageRepository.deleteById(reviewId);
+        replyManageRepository.delete(reply);
+    }
+
+    @Transactional
+    public void removeReply(Long reviewId) {
+        Review review = reviewManageRepository.findById(reviewId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 리뷰를 찾을 수 없습니다. ID=" + reviewId));
+        Reply reply = review.getReply();
+        // Reply 연관관계 제거
+        review.setReplyNUll();
+        reviewManageRepository.save(review);  // 업데이트된 Review 저장
+        replyManageRepository.delete(reply);
+    }
 
 }
