@@ -22,7 +22,9 @@ public class MyDiningServiceImpl implements MyDiningService {
     private final ModelMapper modelMapper;
     private final RestaurantRepository restaurantRepository;
     private final ReservationRepository reservationRepository;
+
     private final MemberRepository memberRepository;
+
     private final ReviewRepository reviewRepository;
     private final BookmarkRepository bookmarkRepository;
 
