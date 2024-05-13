@@ -26,14 +26,14 @@ public class UserManageController {
 
     // ------------------------------------------------- login
 
-    @GetMapping("/login")
+    @GetMapping("/loginPage")
     public String getLogin() {
         return "login";
     }
 
-    @PostMapping("/login")
+    // 로그인 - post 요청
+    @PostMapping("/loginPage")
     public ResponseEntity<?> postLogin(@RequestBody UserManageDTO userManageDTO) {
-
 
         // 로그인 폼 데이터를 받아 처리하는 로직 작성
         return ResponseEntity.ok().build(); // 성공했을 경우 응답
@@ -41,32 +41,38 @@ public class UserManageController {
 
     // ------------------------------------------------- signup
 
-    @GetMapping("/signup")
+    @GetMapping("/signupPage")
     public void getSignup() {
+
     }
 
-    @PostMapping("/signup")
-    public void postSignup() {
+    // 회원 가입 - post 요청
+    @PostMapping("/signupPage")
+    public void postSignup(@RequestBody UserManageDTO userManageDTO) {
+        log.info(userManageDTO);
+        log.info("회원가입 post 요청");
+        userManageService.signUp(userManageDTO);
     }
 
     // ------------------------------------------------- user
 
     @GetMapping("/userMyPage")
     public UserManageDTO getUserData(@RequestParam String email){
-        log.info(email);
+        log.info("{} get 요청", email);
         return userManageService.getUserInfoByEmail(email);
     }
 
     @PostMapping("/userMyPage")
     public void postUserData(@RequestBody UserManageDTO userManageDTO){
-        log.info(userManageDTO);
+        log.info("{} post 요청", userManageDTO);
         userManageService.modifyUserInfo(userManageDTO);
     }
 
     @DeleteMapping("/userMyPage")
     public void deleteUserData(@RequestParam String email){
-        log.info(email);
+        log.info("{} delete 요청", email);
         userManageService.deleteUserInfo(email);
+        log.info("됩니까");
     }
 
     // ------------------------------------------------- owner
