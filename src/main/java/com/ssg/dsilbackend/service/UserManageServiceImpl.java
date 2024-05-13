@@ -63,6 +63,16 @@ public class UserManageServiceImpl implements UserManageService {
         if (isExist) {
             return;
         }
+
+        Point point = Point.builder()
+                .accumulatePoint(0L)
+                .currentPoint(0L)
+                .build();
+
+        pointManageRepository.save(point);
+
+        Permission permission = permissionManageRepository.findByPermission(PermissionRole.USER);
+
         Members userData = Members
                 .builder()
                 .email(userManageDTO.getEmail())
@@ -71,7 +81,12 @@ public class UserManageServiceImpl implements UserManageService {
                 .tel(userManageDTO.getTel())
                 .address(userManageDTO.getAddress())
                 .postcode(userManageDTO.getPostcode())
+                .point(point)
+                .permission(permission)
+                .status(true)
                 .build();
+
+        log.info(userData);
 
         userManageRepository.save(userData);
     }
@@ -115,9 +130,9 @@ public class UserManageServiceImpl implements UserManageService {
 
         Optional<Members> userInfo = userManageRepository.findByEmail(email);
         Members members = userInfo.orElseThrow(() -> new RuntimeException("User not found"));
-
-        members.setMemberState(false);
+        members.updateMemberStatus(false);
         userManageRepository.save(members);
+
     }
 
 //    ----------------------------------------------- Owner
