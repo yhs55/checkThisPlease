@@ -48,4 +48,6 @@ public class Payment {
 
     @Column(name = "buyer_tel")
     private String buyerTel;
+
 }
+

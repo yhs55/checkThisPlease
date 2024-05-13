@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 package com.ssg.dsilbackend.Repository;
 
 
@@ -49,3 +51,4 @@ public class ReserveRepositoryTest {
 //    }
 }
 
+>>>>>>> 39f0f55fa14c46d3e0553fb3f1ae75ec57c1319c

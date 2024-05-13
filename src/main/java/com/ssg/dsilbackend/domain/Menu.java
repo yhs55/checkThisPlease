@@ -22,6 +22,8 @@ public class Menu {
     @Column(name = "price", nullable = false)
     private Long price;
 
+
+
     @Column(name = "menu_img", length = 500)
     private String img;
 
@@ -31,4 +33,12 @@ public class Menu {
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    public void updateMenu(String name, Long price, String img, String menuInfo){
+        this.name = name;
+        this.price = price;
+        this.img = img;
+        this.menuInfo = menuInfo;
+    }
+
 }
