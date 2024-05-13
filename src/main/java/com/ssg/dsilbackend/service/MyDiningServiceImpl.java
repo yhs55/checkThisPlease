@@ -22,14 +22,14 @@ public class MyDiningServiceImpl implements MyDiningService {
     private final ModelMapper modelMapper;
     private final RestaurantRepository restaurantRepository;
     private final ReservationRepository reservationRepository;
-    private final MembersRepository membersRepository;
+    private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final BookmarkRepository bookmarkRepository;
 
 
     // 사용자 아이디번호 받아서 예약리스트 출력
     public List<MydiningReserveDTO> getMydiningReserveListById(Long id) {
-        Members member = membersRepository.findById(id)
+        Members member = memberRepository.findById(id)
                 .orElseThrow(() -> new MemberNotFoundException("Member not found with ID: " + id));
 
         List<Reservation> reservations = reservationRepository.findByMembers(member);
@@ -92,6 +92,7 @@ public class MyDiningServiceImpl implements MyDiningService {
                 .registerDate(reviewRequest.getRegisterDate()) // 리뷰 등록 날짜
                 .score(reviewRequest.getReviewScore()) // 평점
                 .deleteStatus(false) // 삭제 상태 초기화
+                .reply(null)
                 .build();
 
         // Review 객체 저장
@@ -134,6 +135,7 @@ public class MyDiningServiceImpl implements MyDiningService {
         }
         return false;
     }
+
 
 }
 

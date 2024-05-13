@@ -16,8 +16,12 @@ public interface UserManageService {
 
     List<UserManageDTO> getUserInfoList();
     List<OwnerManageDTO> getOwnerInfoList();
+
     void modifyOwnerInfo(OwnerManageDTO ownerManageDTO);
     void removeRestaurantByName(String name);
-    void registerRestaurantInfo(RestaurantRegisterDTO restaurantRegisterDTO);
+
     List<ReviewManageDTO> getReviewInfoList();
+    void registerRestaurantInfo(RestaurantRegisterDTO dto);
+
+
 }

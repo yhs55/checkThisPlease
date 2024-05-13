@@ -4,8 +4,12 @@ import com.ssg.dsilbackend.domain.Members;
 import com.ssg.dsilbackend.domain.Permission;
 import com.ssg.dsilbackend.domain.Point;
 import com.ssg.dsilbackend.domain.Restaurant;
+<<<<<<< HEAD
 import com.ssg.dsilbackend.dto.PermissionRole;
 import com.ssg.dsilbackend.dto.userManage.OwnerManageDTO;
+=======
+import com.ssg.dsilbackend.dto.userManage.RestaurantRegisterDTO;
+>>>>>>> d170e170df1b7b7ad293d71ad4488c750a51d926
 import com.ssg.dsilbackend.dto.userManage.UserManageDTO;
 import com.ssg.dsilbackend.repository.*;
 import lombok.extern.log4j.Log4j2;
@@ -29,10 +33,23 @@ public class UserManageServiceTest {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private PointManageRepository pointManageRepository;
     private PermissionManageRepository permissionManageRepository;
+<<<<<<< HEAD
     private RestaurantRepository restaurantRepository;
     private ModelMapper modelMapper;
     @Autowired
     private UserManageService userManageService;
+=======
+    private RestaurantManageRepository restaurantManageRepository;
+
+    private UserManageService userManageService;
+
+    @Autowired
+    public UserManageServiceTest(UserManageService userManageService){
+        this.userManageService = userManageService;
+    }
+
+
+>>>>>>> d170e170df1b7b7ad293d71ad4488c750a51d926
 
     @Autowired
     public UserManageServiceTest(UserManageRepository userManageRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
@@ -56,8 +73,12 @@ public class UserManageServiceTest {
 //        pointManageRepository.save(point);
 //
 //        Permission permission = new Permission().builder()
+<<<<<<< HEAD
 //                .permission(PermissionRole.USER)
 //                .build();
+=======
+//                .name("USER").build();
+>>>>>>> d170e170df1b7b7ad293d71ad4488c750a51d926
 //
 //        permissionManageRepository.save(permission);
 //
@@ -225,4 +246,6 @@ public class UserManageServiceTest {
 
         log.info(ownerWithRestaurants);
     }
+
+
 }

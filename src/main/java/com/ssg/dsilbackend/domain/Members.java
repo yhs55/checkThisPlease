@@ -52,9 +52,11 @@ public class Members {
     @Column(name = "member_register_number", length = 20)
     private String registerNumber;
 
+
     public void setMemberState(Boolean status) {
         this.status = status;
     }
+
 
     public void updatePassword(String password){
         this.password = password;
@@ -74,5 +76,6 @@ public class Members {
     public void setOwnerPostcode(){
         this.postcode = "000000";
     }
+
 
 }

@@ -1,5 +1,6 @@
 package com.ssg.dsilbackend.service;
 
+import com.ssg.dsilbackend.domain.Review;
 import com.ssg.dsilbackend.dto.myDinig.*;
 
 import java.util.List;
@@ -18,4 +19,5 @@ public interface MyDiningService {
     List<MydiningReviewsDTO> getMydiningReviewsListById(Long id);
 
     boolean removeRequestReview(Long reviewId);
+
 }

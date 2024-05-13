@@ -1,7 +1,9 @@
 package com.ssg.dsilbackend.dto.userManage;
 
+
 import com.ssg.dsilbackend.domain.Permission;
 import com.ssg.dsilbackend.domain.Point;
+
 import lombok.*;
 
 @Getter
@@ -9,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+
 public class UserManageDTO {
     private Long id;
     private String email;
@@ -20,4 +23,6 @@ public class UserManageDTO {
     private String address;
     private String postcode;
     private String status;
+
 }
+
