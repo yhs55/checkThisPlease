@@ -38,7 +38,6 @@ public class Review {
     @Column(name = "review_delete_status", nullable = false)
     private boolean deleteStatus;
 
-
     @Column(name = "review_img", length = 500)
     private String img;
 

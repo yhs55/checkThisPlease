@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class RestaurantRegisterDTO {
+
     private String email; // 멤버
     private String password; // 멤버
     private String userName; // 멤버
@@ -32,4 +33,5 @@ public class RestaurantRegisterDTO {
     private String[] categories; // 식당 // 카테고리
     private List<RegisterMenuDTO> menuDTOs; // 식당 // 메뉴
     private String[] facilities; // 식당 // 편의시설
+
 }
