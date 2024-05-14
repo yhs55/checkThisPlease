@@ -2,7 +2,6 @@ package com.ssg.dsilbackend.repository;
 
 import com.ssg.dsilbackend.domain.Members;
 import com.ssg.dsilbackend.dto.PermissionRole;
-import com.ssg.dsilbackend.dto.userManage.OwnerManageDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

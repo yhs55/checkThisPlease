@@ -41,7 +41,7 @@ public class Members {
     private String tel;
 
     @Column(name = "member_status", nullable = false)
-    private boolean status = true;
+    private boolean status;
 
     @Column(name = "member_address", length = 100, nullable = false)
     private String address;
@@ -53,7 +53,7 @@ public class Members {
     private String registerNumber;
 
 
-    public void setMemberState(Boolean status) {
+    public void updateMemberStatus(Boolean status) {
         this.status = status;
     }
 
