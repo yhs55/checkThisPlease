@@ -1,6 +1,7 @@
 package com.ssg.dsilbackend.domain;
 
 import com.ssg.dsilbackend.dto.Crowd;
+import com.ssg.dsilbackend.dto.userManage.OwnerManageDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -48,6 +49,12 @@ public class Restaurant {
     private Members member;
 
 
+    public void updateRestaurantInfo(OwnerManageDTO ownerManageDTO) {
+        this.tel = ownerManageDTO.getTel();
+        this.address = ownerManageDTO.getAddress();
+    }
+
+
     public void setRestaurantCrowd(Crowd crowd) {
         this.crowd = crowd;
     }
@@ -59,6 +66,7 @@ public class Restaurant {
         this.tableCount = tableCount;
         this.description = description;
     }
+
 
 }
 
