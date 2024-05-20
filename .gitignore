@@ -33,7 +33,7 @@ build/
 .vscode/
 
 # Ignore application properties
-/application.properties
+src/main/resources/application.properties
 
 # Security
 /application-secret.yml
