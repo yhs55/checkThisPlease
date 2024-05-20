@@ -34,6 +34,7 @@ build/
 
 # Ignore application properties
 src/main/resources/**
+src/main/oAuth2/**
 
 # Security
 /application-secret.yml
